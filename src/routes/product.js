@@ -7,10 +7,7 @@ module.exports =[ {
     config: {
       tags: ['api'],
       // auth: ,
-      handler: function (request, h) {
-
-        return 'I did something!';
-    },
+      handler: service.createProduct,
     //   validate: {
     //     payload: service.validateCategory
     //     }
