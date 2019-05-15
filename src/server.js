@@ -1,31 +1,11 @@
-'use strict';
-
-const Hapi = require('hapi');
 require('dotenv').config()
-const init = async () => {
-
-    const server = Hapi.server({
-        port: 3000,
-        host: process.env.DB_HOST
-    });
-
-    server.route({
-        method: 'GET',
-        path:'/',
-        handler: (request, h) => {
-
-            return 'Hello World!';
-        }
-    });
-
-    await server.start();
-    console.log('Server running on %s', server.info.uri);
-};
-
-process.on('unhandledRejection', (err) => {
-
-    console.log(err);
-    process.exit(1);
+const http = require('http');
+const port=process.env.PORT || 3000
+const server = http.createServer((req, res) => {
+res.statusCode = 200;
+res.setHeader('Content-Type', 'text/html');
+res.end('<h1>Hello World</h1>');
 });
-
-init();
+server.listen(port,() => {
+console.log(`Server running at port `+port);
+});
