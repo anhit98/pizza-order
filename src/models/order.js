@@ -17,6 +17,7 @@ const orderSchema = new Schema({
         product_id: String,
         quantity: String
      }],
+     
       orderStatus: { 
         type: String,
         required: [true, 'status is required'],
