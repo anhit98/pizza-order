@@ -15,15 +15,14 @@ const priceSchema = new Schema({
       },
 
       size: {
-        type: String,
+        type: String
         // required: [true, 'size is required']
       },
       topping:{
         type: Array
       },
-
       description: {
-        type: String,
+        type: String
       }
      
 });
