@@ -1,5 +1,6 @@
 
 const service = require('../services/category.js');
+const Joi = require('joi');
 
 module.exports =[ {
     method: 'POST',
@@ -18,7 +19,12 @@ module.exports =[ {
   path: `/category/update/{id}`,
   config: {
     tags: ['api'],
-    handler: service.updateCategory
+    handler: service.updateCategory,
+    validate: {
+      params: {
+          id: Joi.string().min(3).max(10)
+      }
+  }
   }},
   {
     method: 'GET',
