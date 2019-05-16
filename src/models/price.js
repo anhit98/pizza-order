@@ -17,13 +17,13 @@ const priceSchema = new Schema({
       size: {
         type: String
         // required: [true, 'size is required']
-      },
-      topping:{
-        type: Array
-      },
-      description: {
-        type: String
       }
+      // topping:{
+      //   type: Array
+      // },
+      // description: {
+      //   type: String
+      // }
      
 });
 
