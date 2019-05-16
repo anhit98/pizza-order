@@ -39,8 +39,9 @@ const getProductsByCate = (id, cb) => ProductModel.aggregate([
     $match: 
     {
       categoryId: id
-    }
+    },
   },
+
     { $lookup:
        {
          from: 'prices',
@@ -48,7 +49,13 @@ const getProductsByCate = (id, cb) => ProductModel.aggregate([
          foreignField: 'productId',
          as: 'prices'
        }
+     },
+     {
+      $project: {
+       'productId': false
+      }
      }
+     
     ],cb);
 
 // const getProductsByCate = (cb) => model.find(cb);

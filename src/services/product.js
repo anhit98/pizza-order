@@ -3,6 +3,8 @@ const Joi = require('joi');
 const bcrypt = require('bcrypt');
 const Boom = require('boom');
 var modelProduct = require('../models/product.js');
+var modelCategory = require('../models/category.js');
+var async = require('async');
 // var modelPrice = require('../models/price.js');
 // const validateCategory = {
 //   name: Joi.string().max(100).required(),
@@ -66,15 +68,20 @@ var modelProduct = require('../models/product.js');
 const getProductsByCate = function (req, reply) {
   const id = req.params.categoryId;
     return new Promise((resolve, reject) => {
-        modelProduct.getProductsByCate(id, function(err, products){ 
+        modelCategory.getCatebyId(id, function(err, category){ 
         if (err) {
           reject(Boom.badRequest(err));
         } else {
-          resolve(reply.response({products: products }).code(200));
+          modelProduct.getProductsByCate(id, function(err, products){ 
+            if (err) {
+              reject(Boom.badRequest(err));
+            }
+            resolve(reply.response([{category:category },{products: products }]).code(200));
+            });
+            
         }});
       });
   }
-
 
 module.exports = {
     getProductsByCate

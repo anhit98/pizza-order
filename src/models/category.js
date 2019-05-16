@@ -22,6 +22,8 @@ const updateCategory = (id, data, cb) => CategoryModel.findByIdAndUpdate({_id:id
 
 const getAllCategories = (cb) => CategoryModel.find(cb);
 
+const getCatebyId = (id, cb) => CategoryModel.find({_id:id}, cb);
+
 const deleteCategory = (id, cb) => CategoryModel.findByIdAndRemove({_id:id}, cb);
 
 
@@ -29,5 +31,6 @@ module.exports = {
   createCategory,
   updateCategory,
   getAllCategories,
-  deleteCategory
+  deleteCategory,
+  getCatebyId
 }
