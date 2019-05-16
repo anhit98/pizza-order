@@ -1,5 +1,6 @@
 const mongoose  = require("mongoose");
-const url = "mongodb://localhost:27017/order";
+
+const url = "mongodb+srv://NHI-NGUYEN_97:nhinguyen040197@@cluster0-odomf.mongodb.net/order?retryWrites=true";
 mongoose.connect(url, {
     useNewUrlParser: true,
     useCreateIndex: true
