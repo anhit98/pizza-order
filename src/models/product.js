@@ -17,14 +17,7 @@ const productSchema = new Schema({
       image: {
         type: String,
         required: [true, 'image is required']
-      },
-
-      size: [
-        {
-            medium : String,
-            large : String
-        }
-      ]
+      }
      
     
 });
