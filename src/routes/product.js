@@ -15,7 +15,7 @@ module.exports =[ {
   },
   {
     method: 'GET',
-    path: '/product',
+    path: '/',
     config: {
       tags: ['api'],
       // auth: ,
