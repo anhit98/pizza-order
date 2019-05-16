@@ -20,7 +20,7 @@ const priceSchema = new Schema({
       },
       topping:{
         type: Array
-      }
+      },
 
       description: {
         type: String,
