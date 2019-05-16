@@ -31,8 +31,12 @@ module.exports =[ {
     path: `/category`,
     config: {
       tags: ['api'],
-      handler: service.getAllCategories
-    }},
+      handler: service.getAllCategories,
+      cors: {
+        origin: ['*']
+    }
+    },
+},
     {
       method: 'DELETE',
       path: `/category/delete/{id}`,
