@@ -13,7 +13,6 @@ const categorySchema = new Schema({
           type: String,
           require:[true, "image is required"]
       }
-    
 });
 const CategoryModel = mongoose.model('Category', categorySchema);
 

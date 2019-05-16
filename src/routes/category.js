@@ -11,7 +11,10 @@ module.exports =[ {
       handler: service.createCategory,
       validate: {
         payload: service.validateCategory
-        }
+        },
+        cors: {
+          origin: ['*']
+      }
     }
   },
   {
@@ -20,6 +23,9 @@ module.exports =[ {
   config: {
     tags: ['api'],
     handler: service.updateCategory,
+    cors: {
+      origin: ['*']
+  },
     validate: {
       params: {
           id: Joi.string().min(3).max(10)
@@ -42,6 +48,9 @@ module.exports =[ {
       path: `/category/delete/{id}`,
       config: {
         tags: ['api'],
-        handler: service.deleteCategory
+        handler: service.deleteCategory,
+        cors: {
+          origin: ['*']
+      }
       }}
 ]
