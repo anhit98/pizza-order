@@ -4,7 +4,7 @@ const service = require('../services/product.js');
 module.exports =[ 
   {
     method: 'GET',
-    path: '/product/{categoryId}',
+    path: '/products/{categoryId}',
     config: {
       tags: ['api'],
       cors: {

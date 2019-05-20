@@ -59,7 +59,12 @@ const getProductsByCate = (id, cb) => ProductModel.aggregate([
      },
      {
       $project: {
-       'productId': false
+       'toppings': false,
+       'styles': false,
+       'categoryId':false,
+       'description': false,
+       'prices.productId':false
+  
       }
      }
      

@@ -4,7 +4,7 @@ const Joi = require('joi');
 
 module.exports =[ {
     method: 'POST',
-    path: '/category/create',
+    path: '/categories/create',
     config: {
       tags: ['api'],
       // auth: ,
@@ -19,7 +19,7 @@ module.exports =[ {
   },
   {
   method: 'PUT',
-  path: `/category/update/{id}`,
+  path: `/categories/update/{id}`,
   config: {
     tags: ['api'],
     handler: service.updateCategory,
@@ -34,7 +34,7 @@ module.exports =[ {
   }},
   {
     method: 'GET',
-    path: `/category`,
+    path: `/categories`,
     config: {
       tags: ['api'],
       handler: service.getAllCategories,
@@ -45,7 +45,7 @@ module.exports =[ {
 },
     {
       method: 'DELETE',
-      path: `/category/delete/{id}`,
+      path: `/categories/delete/{id}`,
       config: {
         tags: ['api'],
         handler: service.deleteCategory,
