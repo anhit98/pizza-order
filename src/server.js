@@ -29,7 +29,6 @@ const init = async () => {
             }
         ]);
         await server.start(); 
-        console.log(`Server running at: ${server.info.uri}`); 
         require("./models/topping");
         require("./models/style");
         server.route(require('./../src/routes/category'));
