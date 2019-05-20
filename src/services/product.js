@@ -66,23 +66,37 @@ var async = require('async');
 // }
 
 const getProductsByCate = function (req, reply) {
+
   const id = req.params.categoryId;
+  let pageNo = parseInt(req.query.pageNo);
+  let size = parseInt(req.query.size);
+
+  if(pageNo < 0 || pageNo === 0) {
+        throw Boom.badRequest("Invalid page number, should start with 1");
+  }
     return new Promise((resolve, reject) => {
         modelCategory.getCatebyId(id, function(err, category){ 
         if (err) {
           reject(Boom.badRequest(err));
         } else {
-          modelProduct.getProductsByCate(id, function(err, products){ 
+          modelProduct.countProduct(id, function(err, totalCount){ 
             if (err) {
               reject(Boom.badRequest(err));
-            }
-            resolve(reply.response([{category:category },{products: products }]).code(200));
-            });
-            
-        }});
-      });
-  }
-
+            } else {     
+              console.log(totalCount)       
+              modelProduct.getProductsByCate(pageNo, size, id, function(err, products){ 
+              if (err) {
+                reject(Boom.badRequest(err));
+              }
+              resolve(reply.response([{category:category },{products: products }, {pages: Math.ceil(totalCount / size)}]).code(200));
+              
+        });
+      }
+    });
+        }
+  });
+  });
+}
   const getProductById = async function (req, reply) {
     const id = req.params.id;
       return new Promise((resolve, reject) => {

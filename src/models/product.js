@@ -41,7 +41,7 @@ const productSchema = new Schema({
 
 const ProductModel = mongoose.model('Product', productSchema);
 
-const getProductsByCate = (id, cb) => ProductModel.aggregate([
+const getProductsByCate = (pageNo, size, id, cb) => ProductModel.aggregate([
   {
     $match: 
     {
@@ -66,13 +66,16 @@ const getProductsByCate = (id, cb) => ProductModel.aggregate([
        'prices.productId':false
   
       }
-     }
+     },
+     { $skip : size * (pageNo - 1) },
+     { $limit : size }
      
     ],cb);
 
 const getProductsById =  (id, cb) =>  ProductModel.findById({_id: id}).populate('toppings').populate('styles').exec(cb);
-
+const countProduct = (id, cb) => ProductModel.find({"categoryId" : id}).count().countDocuments(cb);
 module.exports = {
   getProductsByCate,
-  getProductsById
+  getProductsById,
+  countProduct
 }
