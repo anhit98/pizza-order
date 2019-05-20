@@ -12,19 +12,18 @@ const toppingSchema = new Schema({
 });
 const ToppingModel = mongoose.model('Topping', toppingSchema);
 
-// const createTopping =  (topping,cb) =>  ToppingModel.create(topping,cb);
+const createTopping =  (topping,cb) =>  ToppingModel.create(topping,cb);
 
-// const updateTopping = (id, data, cb) => StyleTopping.findByIdAndUpdate({_id:id}, data, {new : true} , cb);
+const updateTopping = (id, data, cb) => ToppingModel.findByIdAndUpdate({_id:id}, data, {new : true} , cb);
 
-// const getAllToppings = (cb) => StyleModel.find(cb);
+const getAllToppings = (cb) => ToppingModel.find(cb);
 
-// const deleteTopping = (id, cb) => StyleModel.findByIdAndRemove({_id:id}, cb);
+const deleteTopping = (id, cb) => ToppingModel.findByIdAndRemove({_id:id}, cb);
 
 
 module.exports = {
-  // createStyle,
-
-  // updateStyle,
-  // getAllStyles,
-  // deleteStyle
+  createTopping,
+  updateTopping,
+  getAllToppings,
+  deleteTopping
 }

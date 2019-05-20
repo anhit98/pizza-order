@@ -12,18 +12,10 @@ const orderSchema = new Schema({
         type: String,
         required: [true, 'userId is required']
       },
-      
       order: [{
         product_id: String,
         quantity: String
-     }],
-     
-      orderStatus: { 
-        type: String,
-        required: [true, 'status is required'],
-        enum : ['ordered','pending','in-transit','completed'],
-        default: 'ordered'
-      }
+     }]
     
 });
 const OrderModel = mongoose.model('Order', orderSchema);
