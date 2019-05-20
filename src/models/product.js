@@ -3,6 +3,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 var model = require('../models/price.js');
+// import
 const productSchema = new Schema({
 
       name: {
@@ -23,12 +24,18 @@ const productSchema = new Schema({
       ingredients:{
         type: String
       },
-      topping:{
-        type: Array
-      },
-      style: {
-        type: Array
+      toppings:[
+        {
+          type: Schema.Types.ObjectId,
+          ref: "Topping"
       }
+      ],
+      styles: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "Style"
+      }
+      ]
      
 });
 
@@ -58,9 +65,9 @@ const getProductsByCate = (id, cb) => ProductModel.aggregate([
      
     ],cb);
 
-// const getProductsByCate = (cb) => model.find(cb);
-
+const getProductsById =  (id, cb) =>  ProductModel.findById({_id: id}).populate('toppings').populate('styles').exec(cb);
 
 module.exports = {
-  getProductsByCate
+  getProductsByCate,
+  getProductsById
 }

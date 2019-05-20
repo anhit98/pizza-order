@@ -83,8 +83,22 @@ const getProductsByCate = function (req, reply) {
       });
   }
 
+  const getProductById = async function (req, reply) {
+    const id = req.params.id;
+      return new Promise((resolve, reject) => {
+            modelProduct.getProductsById(id, function(err, product){ 
+              if (err) {
+                reject(Boom.badRequest(err));
+              }
+              resolve(reply.response({product: product}).code(200));
+              });
+              
+        });
+    }
+
 module.exports = {
-    getProductsByCate
+    getProductsByCate,
+    getProductById
 }
 
 
