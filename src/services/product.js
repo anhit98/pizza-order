@@ -73,7 +73,6 @@ var cate = {}
       categoryId:  mongoose.Types.ObjectId(req.query.categoryId)
     }
   }
-  console.log(cate);
   let pageNo = parseInt(req.query.pageNo);
   let size = parseInt(req.query.size);
 
