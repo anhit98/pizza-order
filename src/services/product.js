@@ -100,10 +100,11 @@ var cate = {}
     const id = req.params.id;
       return new Promise((resolve, reject) => {
             modelProduct.getProductsById(id, function(err, product){ 
+              console.log(product)
               if (err) {
                 reject(Boom.badRequest(err));
               }
-              resolve(reply.response({product: product}).code(200));
+              resolve(reply.response({product: product[0]}).code(200));
               });
               
         });
