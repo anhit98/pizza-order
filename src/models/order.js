@@ -6,28 +6,39 @@ const Schema = mongoose.Schema;
 const orderSchema = new Schema({
     date: {
         type: Date, 
-        default: Date.now
+        default: Date.now,
       },
-      customer_id: {
-        type: String,
+      customerId: {
+        type: Schema.Types.ObjectId,
         required: [true, 'userId is required']
       },
-      order: [{
-        product_id: String,
-        quantity: String
+      products: [{
+        productId: {
+          type: Schema.Types.ObjectId,
+          required: true
+        },
+        styleId: Schema.Types.ObjectId,
+        priceId: {
+          type: Schema.Types.ObjectId,
+          required: true
+        },
+        topping: [
+          {
+            type: Schema.Types.ObjectId,
+            ref: "Topping"
+          }
+        ],
+        description: Schema.Types.ObjectId,
+        quantity: {
+          type: Number,
+          required: true
+        }
      }]
     
 });
 const OrderModel = mongoose.model('Order', orderSchema);
 
   const createOrder =  (order,cb) =>  OrderModel.create(order,cb);
-  const updateOrder =  (id, data, cb) =>  OrderModel.findByIdAndUpdate({_id:id}, data,{new : true} , cb);
-  const findOrderById =  (idOrder, cb) =>  OrderModel.find({_id:idOrder}, cb);
-  const findOrderByStatus =  (statusOrder, cb) =>  OrderModel.find(statusOrder, cb);
-
 module.exports = {
-  createOrder,
-  updateOrder,
-  findOrderById,
-  findOrderByStatus
+  createOrder
 }

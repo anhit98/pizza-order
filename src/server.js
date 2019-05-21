@@ -33,6 +33,7 @@ const init = async () => {
         require("./models/style");
         server.route(require('./../src/routes/category'));
         server.route(require('./../src/routes/product'));
+        server.route(require('./../src/routes/order'));
 }; 
 
 init().catch(err => {

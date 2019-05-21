@@ -21,14 +21,14 @@ const productSchema = new Schema({
       description: {
         type: String
       },
-      ingredients:{
+      ingredients: {
         type: String
       },
-      toppings:[
+      toppings: [
         {
           type: Schema.Types.ObjectId,
           ref: "Topping"
-      }
+        }
       ],
       styles: [
         {
