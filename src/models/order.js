@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 const orderSchema = new Schema({
     date: {
         type: Date, 
-        default: Date.now,
+        default: Date.now
       },
       customerId: {
         type: Schema.Types.ObjectId,
@@ -17,18 +17,24 @@ const orderSchema = new Schema({
           type: Schema.Types.ObjectId,
           required: true
         },
-        styleId: Schema.Types.ObjectId,
+        styleId: {
+          type: Schema.Types.ObjectId,
+          ref: "Style"
+        },
         priceId: {
           type: Schema.Types.ObjectId,
           required: true
         },
-        topping: [
-          {
+        topping: 
+        {
+          type: [{            
             type: Schema.Types.ObjectId,
             ref: "Topping"
-          }
-        ],
-        description: Schema.Types.ObjectId,
+           
+        }],
+        default: undefined
+      },
+        description: String,
         quantity: {
           type: Number,
           required: true
@@ -38,7 +44,8 @@ const orderSchema = new Schema({
 });
 const OrderModel = mongoose.model('Order', orderSchema);
 
-  const createOrder =  (order,cb) =>  OrderModel.create(order,cb);
+const createOrder =  (order,cb) =>  OrderModel.create(order,cb);
+
 module.exports = {
   createOrder
 }

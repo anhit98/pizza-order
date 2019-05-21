@@ -24,18 +24,25 @@ const productSchema = new Schema({
       ingredients: {
         type: String
       },
-      toppings: [
-        {
+      toppings:
+      {
+        type: [{            
           type: Schema.Types.ObjectId,
-          ref: "Topping"
-        }
-      ],
-      styles: [
-        {
+          ref: "Topping",
+         
+      }],
+      default: undefined
+    },
+      
+      styles:       
+      {
+        type: [{            
           type: Schema.Types.ObjectId,
-          ref: "Style"
-      }
-      ]
+          ref: "Style",
+         
+      }],
+      default: undefined
+    }
      
 });
 

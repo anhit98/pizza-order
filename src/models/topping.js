@@ -7,7 +7,11 @@ const toppingSchema = new Schema({
       name: {
         type: String,
         required: [true, 'name is required']
-      }
+      },
+      image: {
+        type: String,
+        required: [true, 'image is required']
+      },
     
 });
 const ToppingModel = mongoose.model('Topping', toppingSchema);

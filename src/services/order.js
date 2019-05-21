@@ -9,7 +9,10 @@ const validateOrder = {
 }
 
 const createOrder = function (req, reply) {
-    console.log("fdgv ")
+
+    console.log(req.payload)
+    req.payload.products[1].topping = undefined;
+    console.log(req.payload)
 return new Promise((resolve, reject) => {
   model.createOrder(req.payload, function(err, order){ 
     if (err) {
