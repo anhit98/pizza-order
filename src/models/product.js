@@ -11,7 +11,7 @@ const productSchema = new Schema({
         required: [true, 'name is required']
       },
       categoryId: {
-        type: String,
+        type: Schema.Types.ObjectId,
         required: [true, 'category-id is required']
       },
       image: {
@@ -41,14 +41,10 @@ const productSchema = new Schema({
 
 const ProductModel = mongoose.model('Product', productSchema);
 
-const getProductsByCate = (pageNo, size, id, cb) => ProductModel.aggregate([
+const getProductsByCate = (pageNo, size, cate, cb) => ProductModel.aggregate([
   {
-    $match: 
-    {
-      categoryId: id
-    },
+    $match: cate,
   },
-
     { $lookup:
        {
          from: 'prices',
@@ -57,6 +53,14 @@ const getProductsByCate = (pageNo, size, id, cb) => ProductModel.aggregate([
          as: 'prices'
        }
      },
+     { $lookup:
+      {
+        from: 'categories',
+        localField: 'categoryId',
+        foreignField: '_id',
+        as: 'category'
+      }
+    },
      {
       $project: {
        'toppings': false,
@@ -73,7 +77,7 @@ const getProductsByCate = (pageNo, size, id, cb) => ProductModel.aggregate([
     ],cb);
 
 const getProductsById =  (id, cb) =>  ProductModel.findById({_id: id}).populate('toppings').populate('styles').exec(cb);
-const countProduct = (id, cb) => ProductModel.find({"categoryId" : id}).count().countDocuments(cb);
+const countProduct = (cate, cb) => ProductModel.find(cate).countDocuments(cb);
 module.exports = {
   getProductsByCate,
   getProductsById,

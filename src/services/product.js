@@ -5,6 +5,7 @@ const Boom = require('boom');
 var modelProduct = require('../models/product.js');
 var modelCategory = require('../models/category.js');
 var async = require('async');
+var mongoose = require('mongoose');
 // var modelPrice = require('../models/price.js');
 // const validateCategory = {
 //   name: Joi.string().max(100).required(),
@@ -65,9 +66,14 @@ var async = require('async');
 //   });
 // }
 
-const getProductsByCate = function (req, reply) {
-
-  const id = req.params.categoryId;
+const getProducts = function (req, reply) {
+var cate = {}
+  if(req.query.categoryId){
+    cate = {
+      categoryId:  mongoose.Types.ObjectId(req.query.categoryId)
+    }
+  }
+  console.log(cate);
   let pageNo = parseInt(req.query.pageNo);
   let size = parseInt(req.query.size);
 
@@ -75,26 +81,20 @@ const getProductsByCate = function (req, reply) {
         throw Boom.badRequest("Invalid page number, should start with 1");
   }
     return new Promise((resolve, reject) => {
-        modelCategory.getCatebyId(id, function(err, category){ 
-        if (err) {
-          reject(Boom.badRequest(err));
-        } else {
-          modelProduct.countProduct(id, function(err, totalCount){ 
+          modelProduct.countProduct(cate, function(err, totalCount){ 
             if (err) {
               reject(Boom.badRequest(err));
             } else {     
               console.log(totalCount)       
-              modelProduct.getProductsByCate(pageNo, size, id, function(err, products){ 
+              modelProduct.getProductsByCate(pageNo, size, cate, function(err, products){ 
               if (err) {
                 reject(Boom.badRequest(err));
               }
-              resolve(reply.response([{category:category },{products: products }, {pages: Math.ceil(totalCount / size)}]).code(200));
+              resolve(reply.response([{products: products }, {pages: Math.ceil(totalCount / size)}]).code(200));
               
         });
       }
     });
-        }
-  });
   });
 }
   const getProductById = async function (req, reply) {
@@ -111,7 +111,7 @@ const getProductsByCate = function (req, reply) {
     }
 
 module.exports = {
-    getProductsByCate,
+    getProducts,
     getProductById
 }
 

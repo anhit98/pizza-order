@@ -4,13 +4,13 @@ const service = require('../services/product.js');
 module.exports =[ 
   {
     method: 'GET',
-    path: '/products/{categoryId}',
+    path: '/products',
     config: {
       tags: ['api'],
       cors: {
         origin: ['*']
     },
-      handler: service.getProductsByCate,
+      handler: service.getProducts,
     //   validate: {
     //     payload: service.validateCategory
     //     }
@@ -18,7 +18,7 @@ module.exports =[
   },
   {
     method: 'GET',
-    path: '/products/details/{id}',
+    path: '/products/{id}',
     config: {
       tags: ['api'],
       cors: {
