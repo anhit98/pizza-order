@@ -76,7 +76,36 @@ const getProductsByCate = (pageNo, size, cate, cb) => ProductModel.aggregate([
      
     ],cb);
 
-const getProductsById =  (id, cb) =>  ProductModel.findById({_id: id}).populate('toppings').populate('styles').exec(cb);
+const getProductsById =  (id, cb) =>  ProductModel.aggregate([
+  {
+    $match: {_id: mongoose.Types.ObjectId(id)}
+  },
+  { $lookup:
+   {
+     from: 'prices',
+     localField: '_id',
+     foreignField: 'productId',
+     as: 'prices'
+   }
+ },
+ { $lookup:
+  {
+    from: 'toppings',
+    localField: 'toppings',
+    foreignField: '_id',
+    as: 'toppings'
+  }
+},
+{ $lookup:
+  {
+    from: 'styles',
+    localField: 'styles',
+    foreignField: '_id',
+    as: 'styles'
+  }
+}
+  
+ ],cb);
 const countProduct = (cate, cb) => ProductModel.find(cate).countDocuments(cb);
 module.exports = {
   getProductsByCate,
