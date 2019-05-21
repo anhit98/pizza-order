@@ -1,6 +1,6 @@
 
 const service = require('../services/product.js');
-
+const Joi = require('joi');
 module.exports =[ 
   {
     method: 'GET',
@@ -11,9 +11,14 @@ module.exports =[
         origin: ['*']
     },
       handler: service.getProducts,
-    //   validate: {
-    //     payload: service.validateCategory
-    //     }
+      validate: {
+        query: {
+          categoryId: Joi.string().optional(),
+          pageNo: Joi.string().required(),
+          size: Joi.string().required()
+      }
+    }
+      
     }
   },
   {
@@ -25,9 +30,11 @@ module.exports =[
         origin: ['*']
     },
       handler: service.getProductById,
-    //   validate: {
-    //     payload: service.validateCategory
-    //     }
+      validate: {
+        params: {
+            id: Joi.string().min(3).max(50),
+        }
+    }
     }
   }
 ]
