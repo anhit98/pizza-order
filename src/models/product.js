@@ -15,7 +15,7 @@ const productSchema = new Schema({
         required: [true, 'category-id is required']
       },
       image: {
-        type: String,
+        type: Array,
         required: [true, 'image is required']
       },
       description: {
