@@ -9,7 +9,6 @@ module.exports =[ {
       tags: ['api'],
       // auth: ,
       handler: service.createOrder,
- 
         cors: {
           origin: ['*']
       }
