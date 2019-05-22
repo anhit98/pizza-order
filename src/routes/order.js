@@ -4,14 +4,34 @@ const Joi = require('joi');
 
 module.exports =[ {
     method: 'POST',
-    path: '/order/create',
+    path: '/orders/create',
     config: {
       tags: ['api'],
       // auth: ,
       handler: service.createOrder,
         cors: {
           origin: ['*']
+      },
+      validate: {
+        payload: service.validateOrder
+        },
+    }
+  },
+  {
+    method: 'GET',
+    path: '/orders',
+    config: {
+      tags: ['api'],
+      // auth: ,
+      handler: service.getOrders,
+        cors: {
+          origin: ['*']
+      },
+      validate: {
+        query: {
+          customerId: Joi.string().optional()
       }
+    }
     }
   }
 ]
