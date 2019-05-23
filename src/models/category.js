@@ -9,7 +9,7 @@ const categorySchema = new Schema({
         required: [true, 'name is required']
       },
 
-      image:{
+      image:  {
           type: String,
           require:[true, "image is required"]
       }

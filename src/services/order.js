@@ -15,7 +15,6 @@ const createOrder = function (req, reply) {
   if(req.headers.authorization){
     const token = req.headers.authorization
   }
-
     return new Promise((resolve, reject) => {
       model.createOrder(req.payload, function(err, order){ 
         if (err) {
