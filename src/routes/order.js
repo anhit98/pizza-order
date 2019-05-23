@@ -13,10 +13,15 @@ module.exports =[ {
           origin: ['*']
       },
       validate: {
-        payload: service.validateOrder
+        payload: service.validateOrder,
+        headers:
+          Joi.object().keys({
+            'authorization': Joi.string().required().description('Authorization header containing the JSON Web Token')
+          }).options({ allowUnknown: true })
+      }
         
         },
-    }
+    
   },
   {
     method: 'GET',

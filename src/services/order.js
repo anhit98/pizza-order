@@ -7,11 +7,12 @@ const jwt = require('jsonwebtoken');
 var model = require('../models/order.js');
 var publicKEY  = fs.readFileSync('public.key', 'utf8');
 const validateOrder = {
-  products: Joi.array().items(Joi.object({
+  products: Joi.array().required().items(Joi.object({
     productId: Joi.string().required(),
     styleId: Joi.string().optional(),
     topping: Joi.array().optional(),
-    priceId: Joi.string().required()
+    priceId: Joi.string().required(),
+    quantity: Joi.number().required()
   }).required())
 }
 const verifyToken = function (token) {
