@@ -51,29 +51,38 @@ const getOrders = (customer, cb) => OrderModel.aggregate([
   {
     $match: customer,
   },
-  { $unwind: '$products' },
+  { $lookup:
+    {
+      from: 'users',
+      localField: 'customerId',
+      foreignField: '_id',
+      as: 'users'
+    }
+  },
+  { $lookup:
+    {
+      from: 'prices',
+      localField: 'products.priceId',
+      foreignField: '_id',
+      as: 'products.priceId'
+    }
+  },
   { $lookup:
     {
       from: 'products',
       localField: 'products.productId',
       foreignField: '_id',
-      as: 'products'
-    }
+      as: 'products.productId'
+    },
+    
   },
-    { $lookup:
-       {
-         from: 'prices',
-         localField: 'products.priceId',
-         foreignField: '_id',
-         as: 'prices'
-       }
-     },
+
      { $lookup:
       {
         from: 'styles',
         localField: 'products.styleId',
         foreignField: '_id',
-        as: 'styles'
+        as: 'products.styleId'
       }
     },
     { $lookup:
@@ -81,10 +90,13 @@ const getOrders = (customer, cb) => OrderModel.aggregate([
         from: 'toppings',
         localField: 'products.topping',
         foreignField: '_id',
-        as: 'toppings'
+        as: 'products.topping'
       }
     },
-
+    { $group: {
+      _id: "$_id",
+      products: { "$push": "$products" }
+    }}
     //  {
     //   $project: {
     //    'toppings': false,
@@ -96,6 +108,7 @@ const getOrders = (customer, cb) => OrderModel.aggregate([
     //   }
     //  },
     ],cb);
+
 
 module.exports = {
   createOrder,

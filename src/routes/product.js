@@ -18,7 +18,6 @@ module.exports =[
           size: Joi.string().required()
       }
     }
-      
     }
   },
   {
