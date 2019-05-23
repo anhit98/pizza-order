@@ -3,6 +3,7 @@ const Joi = require('joi');
 const bcrypt = require('bcrypt');
 const Boom = require('boom');
 const fs   = require('fs');
+const jwt = require('jsonwebtoken');
 var model = require('../models/order.js');
 var publicKEY  = fs.readFileSync('public.key', 'utf8');
 const validateOrder = {
