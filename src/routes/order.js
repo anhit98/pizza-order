@@ -13,7 +13,11 @@ module.exports =[ {
           origin: ['*']
       },
       validate: {
-        payload: service.validateOrder
+        payload: service.validateOrder,
+        query: {
+          customerId: Joi.string().optional()
+      }
+        
         },
     }
   },
