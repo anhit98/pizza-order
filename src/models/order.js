@@ -56,7 +56,15 @@ const getOrders = (customer, cb) => OrderModel.aggregate([
       from: 'users',
       localField: 'customerId',
       foreignField: '_id',
-      as: 'users'
+      as: 'customerId'
+    }
+  },
+  { $lookup:
+    {
+      from: 'styles',
+      localField: 'products.styleId',
+      foreignField: '_id',
+      as: 'pId'
     }
   },
   { $lookup:
@@ -64,7 +72,7 @@ const getOrders = (customer, cb) => OrderModel.aggregate([
       from: 'prices',
       localField: 'products.priceId',
       foreignField: '_id',
-      as: 'products.priceId'
+      as: 'iceId'
     }
   },
   { $lookup:
@@ -72,31 +80,23 @@ const getOrders = (customer, cb) => OrderModel.aggregate([
       from: 'products',
       localField: 'products.productId',
       foreignField: '_id',
-      as: 'products.productId'
+      as: 'oductId'
     },
     
   },
 
-     { $lookup:
-      {
-        from: 'styles',
-        localField: 'products.styleId',
-        foreignField: '_id',
-        as: 'products.styleId'
-      }
-    },
     { $lookup:
       {
         from: 'toppings',
         localField: 'products.topping',
         foreignField: '_id',
-        as: 'products.topping'
+        as: 'pping'
       }
-    },
-    { $group: {
-      _id: "$_id",
-      products: { "$push": "$products" }
-    }}
+    }
+    // { $group: {
+    //   _id: "$customerId",
+    //   products: { "$push": "$products" }
+    // }}
     //  {
     //   $project: {
     //    'toppings': false,
@@ -108,7 +108,7 @@ const getOrders = (customer, cb) => OrderModel.aggregate([
     //   }
     //  },
     ],cb);
-
+// { $group : { _id : "$customerId", books: { $push: "$title" } } }
 
 module.exports = {
   createOrder,

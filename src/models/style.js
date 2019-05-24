@@ -8,7 +8,6 @@ const styleSchema = new Schema({
         type: String,
         required: [true, 'name is required']
       }
-    
 });
 const StyleModel = mongoose.model('Style', styleSchema);
 
@@ -19,7 +18,6 @@ const updateStyle = (id, data, cb) => StyleModel.findByIdAndUpdate({_id:id}, dat
 const getAllStyles = (cb) => StyleModel.find(cb);
 
 const deleteStyle = (id, cb) => StyleModel.findByIdAndRemove({_id:id}, cb);
-
 
 module.exports = {
   createStyle,
