@@ -43,6 +43,8 @@ const orderSchema = new Schema({
     
 });
 
+
+
 const OrderModel = mongoose.model('Order', orderSchema);
 
 const createOrder =  (order,cb) =>  OrderModel.create(order,cb);
@@ -51,28 +53,17 @@ const getOrders = (customer, cb) => OrderModel.aggregate([
   {
     $match: customer,
   },
+  { $unwind: {
+    path: "$products",
+    preserveNullAndEmptyArrays: true
+} },
+  
   { $lookup:
     {
       from: 'users',
       localField: 'customerId',
       foreignField: '_id',
-      as: 'customerId'
-    }
-  },
-  { $lookup:
-    {
-      from: 'styles',
-      localField: 'products.styleId',
-      foreignField: '_id',
-      as: 'pId'
-    }
-  },
-  { $lookup:
-    {
-      from: 'prices',
-      localField: 'products.priceId',
-      foreignField: '_id',
-      as: 'iceId'
+      as: 'user'
     }
   },
   { $lookup:
@@ -80,33 +71,51 @@ const getOrders = (customer, cb) => OrderModel.aggregate([
       from: 'products',
       localField: 'products.productId',
       foreignField: '_id',
-      as: 'oductId'
-    },
+      as: 'product.product'
+    }
     
   },
 
+  { $lookup:
+    {
+      from: 'prices',
+      localField: 'products.priceId',
+      foreignField: '_id',
+      as: 'product.price'
+    }
+  },
+
+     { $lookup:
+      {
+        from: 'styles',
+        localField: 'products.styleId',
+        foreignField: '_id',
+        as: 'product.style'
+      }
+    },
     { $lookup:
       {
         from: 'toppings',
         localField: 'products.topping',
         foreignField: '_id',
-        as: 'pping'
+        as: 'product.toppings'
       }
-    }
-    // { $group: {
-    //   _id: "$customerId",
-    //   products: { "$push": "$products" }
-    // }}
-    //  {
-    //   $project: {
-    //    'toppings': false,
-    //    'styles': false,
-    //    'categoryId':false,
-    //    'description': false,
-    //    'prices.productId':false
-  
-    //   }
-    //  },
+    },
+    { $project: { 
+      "product.product": { "$arrayElemAt": [ "$product.product", 0 ] } ,
+      "product.style": { "$arrayElemAt": [ "$product.style", 0 ] } ,
+      "product.price": { "$arrayElemAt": [ "$product.price", 0 ] } ,
+      "user": { "$arrayElemAt": [ "$user", 0 ] } ,
+      "product.quantity": "$products.quantity",
+      "product.toppings": "$product.toppings"
+  }} ,
+    { $group: {
+      _id: "$_id",
+      customerId: { "$first": "$user" },
+      products: { $push: "$product"  }
+      
+    }}
+
     ],cb);
 // { $group : { _id : "$customerId", books: { $push: "$title" } } }
 
