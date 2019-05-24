@@ -131,8 +131,10 @@ const getOrders = (customer, cb) => OrderModel.aggregate([
   }} 
 
     ],cb);
+  const updateOrderStatus = (id, data, cb) => OrderModel.findByIdAndUpdate({_id:id}, data, {new : true} , cb);
 
 module.exports = {
   createOrder,
-  getOrders
+  getOrders,
+  updateOrderStatus
 }
