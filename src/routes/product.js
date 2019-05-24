@@ -49,5 +49,36 @@ module.exports =[
         payload: service.validateProduct
         },
     }
-  }
+  },
+  {
+    method: 'PUT',
+    path: `/products/{id}`,
+    config: {
+      tags: ['api'],
+      handler: service.updateProduct,
+      cors: {
+        origin: ['*']
+    },
+      validate: {
+        payload: service.validateUpdateProduct,
+        params: {
+            id: Joi.string().min(3)
+        }
+    }
+    }},
+    {
+      method: 'DELETE',
+      path: `/products/{id}`,
+      config: {
+        tags: ['api'],
+        handler: service.deleteProduct,
+        cors: {
+          origin: ['*']
+      },
+      validate: {
+        params: {
+            id: Joi.string().min(3)
+        }
+    }
+      }}
 ]

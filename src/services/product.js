@@ -6,12 +6,22 @@ var modelProduct = require('../models/product.js');
 var async = require('async');
 var mongoose = require('mongoose');
 var modelPrice = require('../models/price.js');
+const empty = require('is-empty');
 
 const validateProduct = {
   name: Joi.string().max(100).required(),
   image: Joi.array().required(),
   categoryId: Joi.string().required(),
   ingredients: Joi.string().required(),
+  description: Joi.string().optional(),
+  styles: Joi.array().optional(),
+  toppings: Joi.array().optional()
+}
+const validateUpdateProduct = {
+  name: Joi.string().max(100).optional(),
+  image: Joi.array().optional(),
+  categoryId: Joi.string().optional(),
+  ingredients: Joi.string().optional(),
   description: Joi.string().optional(),
   styles: Joi.array().optional(),
   toppings: Joi.array().optional()
@@ -27,6 +37,18 @@ const createProduct = async function (req, reply) {
     }});
   });
 }
+
+const updateProduct = function (req, reply) {
+  if(!mongoose.Types.ObjectId.isValid(req.params.id)) throw Boom.badRequest("invalid id format!");
+    return new Promise((resolve, reject) => {
+    modelProduct.updateProduct(req.params.id, req.payload, function(err, product){ 
+      if (err) {
+        reject(Boom.badRequest(err));
+      } else {
+        resolve(reply.response({product: product }).code(200));
+      }});
+    });
+};
 
 const getProducts = function (req, reply) {
 var cate = {}
@@ -71,12 +93,48 @@ var cate = {}
               
         });
     }
+    const checkIfPriceDeleted = function (id) {
+      let productId = {productId:  mongoose.Types.ObjectId(id)}
+      return new Promise((resolve, reject) => {
+        modelPrice.getPrice(productId, function(err, price){ 
+          if (err) {
+            reject(Boom.badRequest(err));
+          } else {
+            resolve(price);
+          }});
+        });
+    }
+    const deleteProduct = async function (req, reply) {
+      if(!mongoose.Types.ObjectId.isValid(req.params.id)) throw Boom.badRequest("invalid id format!");
+      const isPriceDeleted = await checkIfPriceDeleted(req.params.id);
+      if(isPriceDeleted.length) throw Boom.badRequest("Please delete all price of the product!");
+      return new Promise((resolve, reject) => {
+        modelProduct.deleteProduct(req.params.id, function(err, product){ 
+          if (err) {
+            reject(Boom.badRequest(err));
+          } else {
+            if(empty(product)|| product==null) {
+              reject(Boom.badRequest("Product id doesn't exist"));
+    
+            } else {
+              resolve(reply.response({
+                message: "Product successfully deleted",
+                id: product._id
+            }).code(200));
+          }
+    
+          }});
+        });
+    };
 
 module.exports = {
     getProducts,
     getProductById,
     createProduct,
-    validateProduct
+    validateProduct,
+    updateProduct,
+    validateUpdateProduct,
+    deleteProduct
 
 }
 
