@@ -33,6 +33,9 @@ const init = async () => {
         server.route(require('./../src/routes/category'));
         server.route(require('./../src/routes/product'));
         server.route(require('./../src/routes/order'));
+        server.route(require('./../src/routes/style'));
+        server.route(require('./../src/routes/topping'));
+
 }; 
 
 init().catch(err => {

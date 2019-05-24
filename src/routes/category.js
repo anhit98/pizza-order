@@ -4,7 +4,7 @@ const Joi = require('joi');
 
 module.exports =[ {
     method: 'POST',
-    path: '/categories/create',
+    path: '/categories',
     config: {
       tags: ['api'],
       // auth: ,
@@ -19,7 +19,7 @@ module.exports =[ {
   },
   {
   method: 'PUT',
-  path: `/categories/update/{id}`,
+  path: `/categories/{id}`,
   config: {
     tags: ['api'],
     handler: service.updateCategory,
@@ -27,8 +27,9 @@ module.exports =[ {
       origin: ['*']
   },
     validate: {
+      payload: service.validateUpdateCategory,
       params: {
-          id: Joi.string().min(3).max(10)
+          id: Joi.string().min(3)
       }
   }
   }},
@@ -45,12 +46,17 @@ module.exports =[ {
 },
     {
       method: 'DELETE',
-      path: `/categories/delete/{id}`,
+      path: `/categories/{id}`,
       config: {
         tags: ['api'],
         handler: service.deleteCategory,
         cors: {
           origin: ['*']
-      }
+      },
+      validate: {
+        params: {
+            id: Joi.string().min(3)
+        }
+    }
       }}
 ]

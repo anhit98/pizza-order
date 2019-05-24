@@ -7,9 +7,12 @@ var model = require('../models/category.js');
 
 const validateCategory = {
   name: Joi.string().max(100).required(),
-  image: Joi.string().max(400).required(),
+  image: Joi.string().max(400).required()
 }
-
+ const validateUpdateCategory = {
+  name: Joi.string().max(100).optional(),
+  image: Joi.string().max(400).optional()
+ }
 const createCategory = function (req, reply) {
 return new Promise((resolve, reject) => {
   model.createCategory(req.payload, function(err, category){ 
@@ -68,7 +71,8 @@ module.exports = {
   validateCategory,
   updateCategory,
   getAllCategories,
-  deleteCategory
+  deleteCategory,
+  validateUpdateCategory
 }
 
 

@@ -1,16 +1,16 @@
 
-const service = require('../services/style.js');
+const service = require('../services/topping.js');
 const Joi = require('joi');
 
 module.exports =[ {
     method: 'POST',
-    path: '/styles',
+    path: '/toppings',
     config: {
       tags: ['api'],
       // auth: ,
-      handler: service.createStyle,
+      handler: service.createTopping,
       validate: {
-        payload: service.validateStyle
+        payload: service.validateTopping
         },
         cors: {
           origin: ['*']
@@ -19,15 +19,15 @@ module.exports =[ {
   },
   {
   method: 'PUT',
-  path: `/styles/{id}`,
+  path: `/toppings/{id}`,
   config: {
     tags: ['api'],
-    handler: service.updateStyle,
+    handler: service.updateTopping,
     cors: {
       origin: ['*']
   },
     validate: {
-      payload: service.validateUpdateStyle,
+      payload: service.validateUpdateTopping,
       params: {
           id: Joi.string().min(3)
       }
@@ -35,10 +35,10 @@ module.exports =[ {
   }},
   {
     method: 'GET',
-    path: `/styles`,
+    path: `/toppings`,
     config: {
       tags: ['api'],
-      handler: service.getAllStyles,
+      handler: service.getAllToppings,
       cors: {
         origin: ['*']
     }
@@ -46,10 +46,10 @@ module.exports =[ {
 },
     {
       method: 'DELETE',
-      path: `/styles/{id}`,
+      path: `/toppings/{id}`,
       config: {
         tags: ['api'],
-        handler: service.deleteStyle,
+        handler: service.deleteTopping,
         cors: {
           origin: ['*']
       },
