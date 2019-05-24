@@ -39,7 +39,13 @@ const orderSchema = new Schema({
           type: Number,
           required: true
         }
-     }]
+  
+     }],
+     status: {
+      type: String,
+      required: [true, 'status is required'],
+      enum : ['submitted','processing','completed','cancelled'],
+    },
     
 });
 
@@ -73,7 +79,6 @@ const getOrders = (customer, cb) => OrderModel.aggregate([
       foreignField: '_id',
       as: 'product.product'
     }
-    
   },
 
   { $lookup:
@@ -93,6 +98,7 @@ const getOrders = (customer, cb) => OrderModel.aggregate([
         as: 'product.style'
       }
     },
+    
     { $lookup:
       {
         from: 'toppings',
@@ -108,16 +114,21 @@ const getOrders = (customer, cb) => OrderModel.aggregate([
       "user": { "$arrayElemAt": [ "$user", 0 ] } ,
       "product.quantity": "$products.quantity",
       "product.toppings": "$product.toppings"
+
   }} ,
     { $group: {
       _id: "$_id",
-      customerId: { "$first": "$user" },
-      products: { $push: "$product"  }
+      customer: { "$first": "$user" },
+      products: { $push: "$product"  },
       
-    }}
+    }},
+    { $project: { 
+      "products.product.toppings": false,
+      "products.product.styles": false
+
+  }} 
 
     ],cb);
-// { $group : { _id : "$customerId", books: { $push: "$title" } } }
 
 module.exports = {
   createOrder,

@@ -20,7 +20,6 @@ module.exports =[ {
           }).options({ allowUnknown: true })
           }
         },
-    
   },
   {
     method: 'GET',

@@ -11,7 +11,6 @@ const port=process.env.PORT || 3000
 const server = Hapi.server({ port: port, host: process.env.HOST }); 
 
 const init = async () => {
-    
     const swaggerOptions = {
             info: {
                     title: 'Test API Documentation',

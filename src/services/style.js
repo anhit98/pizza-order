@@ -61,8 +61,6 @@ const deleteStyle = function (req, reply) {
 };
 
 
-
-
 module.exports = {
   createStyle,
   validateStyle,
