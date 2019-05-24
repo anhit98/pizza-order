@@ -34,6 +34,7 @@ const init = async () => {
         server.route(require('./../src/routes/order'));
         server.route(require('./../src/routes/style'));
         server.route(require('./../src/routes/topping'));
+        server.route(require('./../src/routes/price'));
 
 }; 
 

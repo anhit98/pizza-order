@@ -113,13 +113,15 @@ const getOrders = (customer, cb) => OrderModel.aggregate([
       "product.price": { "$arrayElemAt": [ "$product.price", 0 ] } ,
       "user": { "$arrayElemAt": [ "$user", 0 ] } ,
       "product.quantity": "$products.quantity",
-      "product.toppings": "$product.toppings"
+      "product.toppings": "$product.toppings",
+      "status":"$status"
 
   }} ,
     { $group: {
       _id: "$_id",
       customer: { "$first": "$user" },
-      products: { $push: "$product"  },
+      products: { $push: "$product" },
+      status: {"$first": "$status" }
       
     }},
     { $project: { 

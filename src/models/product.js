@@ -113,11 +113,13 @@ const getProductsById =  (id, cb) =>  ProductModel.aggregate([
 }
   
  ],cb);
+ const checkIfProductExist = (id, cb) => ProductModel.find({_id: mongoose.Types.ObjectId(id)},cb);
 const countProduct = (cate, cb) => ProductModel.find(cate).countDocuments(cb);
 const createProduct =  (product,cb) =>  ProductModel.create(product,cb);
 module.exports = {
   getProductsByCate,
   getProductsById,
   countProduct,
-  createProduct
+  createProduct,
+  checkIfProductExist
 }

@@ -3,8 +3,8 @@ const Joi = require('joi');
 const bcrypt = require('bcrypt');
 const Boom = require('boom');
 var model = require('../models/category.js');
-
-
+var mongoose = require('mongoose');
+const empty = require('is-empty');
 const validateCategory = {
   name: Joi.string().max(100).required(),
   image: Joi.string().max(400).required()
@@ -28,7 +28,8 @@ return new Promise((resolve, reject) => {
 
 
 const updateCategory = function (req, reply) {
-  return new Promise((resolve, reject) => {
+  if(!mongoose.Types.ObjectId.isValid(req.params.id)) throw Boom.badRequest("invalid id format!");
+    return new Promise((resolve, reject) => {
     model.updateCategory(req.params.id, req.payload, function(err, category){ 
       if (err) {
         reject(Boom.badRequest(err));
@@ -50,17 +51,23 @@ const getAllCategories = function (req, reply) {
 }
 
 const deleteCategory = function (req, reply) {
- 
+  console.log(mongoose.Types.ObjectId.isValid(req.params.id))
+  if(!mongoose.Types.ObjectId.isValid(req.params.id)) throw Boom.badRequest("invalid id format!");
   return new Promise((resolve, reject) => {
     model.deleteCategory(req.params.id, function(err, category){ 
-      console.log("vfdgdf");
       if (err) {
         reject(Boom.badRequest(err));
       } else {
-        resolve(reply.response({
-          message: "Category successfully deleted",
-          id: category._id
-      }).code(200));
+        if(empty(category)|| category==null) {
+          reject(Boom.badRequest("Category id doesn't exist"));
+
+        } else {
+          resolve(reply.response({
+            message: "Category successfully deleted",
+            id: category._id
+        }).code(200));
+      }
+
       }});
     });
 };

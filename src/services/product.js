@@ -14,38 +14,16 @@ const validateProduct = {
   ingredients: Joi.string().required(),
   description: Joi.string().optional(),
   styles: Joi.array().optional(),
-  toppings: Joi.array().optional(),
-  price: Joi.array().required().items(Joi.object({
-    price: Joi.number().required(),
-    size: Joi.string().required(),
-    description: Joi.string().required()
-  }).required())
+  toppings: Joi.array().optional()
 }
-// async function saveAll(priceArr) {
-//     console.log(priceArr);
-//     const promises = priceArr.map(priceItem => modelPrice.createPrice(priceItem));
-//     const responses = await Promise.all(promises);
-//     return responses;
-// }
-const createProduct = async function (req, reply) {
-  const priceArr = req.payload.price;
-  delete req.payload.price;
-    return new Promise((resolve, reject) => {
 
+const createProduct = async function (req, reply) {
+    return new Promise((resolve, reject) => {
     modelProduct.createProduct(req.payload, function(err, product){ 
     if (err) {
       reject(Boom.badRequest(err));
     } else {
-              priceArr.forEach(function (item) {
-                item.productId = product._id
-                
-            });
-                modelPrice.createPrice(priceArr, function(err,price){ 
-                    if (err) {
-                        reject(Boom.badRequest(err));
-                    }
-                        resolve(reply.response([{product: product},{price: price}]).code(200));
-                    });
+      resolve(reply.response({product: product }).code(200));
     }});
   });
 }
@@ -99,6 +77,7 @@ module.exports = {
     getProductById,
     createProduct,
     validateProduct
+
 }
 
 
