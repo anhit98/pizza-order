@@ -35,5 +35,19 @@ module.exports =[
         }
     }
     }
+  },
+  {
+    method: 'POST',
+    path: '/products',
+    config: {
+      tags: ['api'],
+      cors: {
+        origin: ['*']
+    },
+      handler: service.createProduct,
+      validate: {
+        payload: service.validateProduct
+        },
+    }
   }
 ]

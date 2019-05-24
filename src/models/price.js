@@ -25,9 +25,9 @@ const priceSchema = new Schema({
 });
 
 const PriceModel = mongoose.model('Price', priceSchema);
+const createPrice =  (price,cb) =>  PriceModel.insertMany(price,cb);
 
-
-
-module.exports = 
-    // createPrice
+module.exports = {
+    createPrice,
     PriceModel
+}
