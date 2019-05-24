@@ -43,6 +43,8 @@ const orderSchema = new Schema({
     
 });
 
+
+
 const OrderModel = mongoose.model('Order', orderSchema);
 
 const createOrder =  (order,cb) =>  OrderModel.create(order,cb);
@@ -51,20 +53,17 @@ const getOrders = (customer, cb) => OrderModel.aggregate([
   {
     $match: customer,
   },
+  { $unwind: {
+    path: "$products",
+    preserveNullAndEmptyArrays: true
+} },
+  
   { $lookup:
     {
       from: 'users',
       localField: 'customerId',
       foreignField: '_id',
-      as: 'users'
-    }
-  },
-  { $lookup:
-    {
-      from: 'prices',
-      localField: 'products.priceId',
-      foreignField: '_id',
-      as: 'products.priceId'
+      as: 'user'
     }
   },
   { $lookup:
@@ -72,9 +71,18 @@ const getOrders = (customer, cb) => OrderModel.aggregate([
       from: 'products',
       localField: 'products.productId',
       foreignField: '_id',
-      as: 'products.productId'
-    },
+      as: 'product.data'
+    }
     
+  },
+
+  { $lookup:
+    {
+      from: 'prices',
+      localField: 'products.priceId',
+      foreignField: '_id',
+      as: 'product.price'
+    }
   },
 
      { $lookup:
@@ -82,7 +90,7 @@ const getOrders = (customer, cb) => OrderModel.aggregate([
         from: 'styles',
         localField: 'products.styleId',
         foreignField: '_id',
-        as: 'products.styleId'
+        as: 'product.style'
       }
     },
     { $lookup:
@@ -90,23 +98,21 @@ const getOrders = (customer, cb) => OrderModel.aggregate([
         from: 'toppings',
         localField: 'products.topping',
         foreignField: '_id',
-        as: 'products.topping'
+        as: 'product.toppings'
       }
     },
+    { $project: { 
+      "product.data": { "$arrayElemAt": [ "$product.data", 0 ] } ,
+      "product.style": { "$arrayElemAt": [ "$product.style", 0 ] } ,
+      "product.price": { "$arrayElemAt": [ "$product.price", 0 ] } ,
+      "product.toppings": 4
+  }} ,
     { $group: {
       _id: "$_id",
-      products: { "$push": "$products" }
+      products: { $push: "$product"  }
+      
     }}
-    //  {
-    //   $project: {
-    //    'toppings': false,
-    //    'styles': false,
-    //    'categoryId':false,
-    //    'description': false,
-    //    'prices.productId':false
-  
-    //   }
-    //  },
+
     ],cb);
 
 

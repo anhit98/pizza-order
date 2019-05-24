@@ -8,7 +8,7 @@ const Pack = require('./../package');
 var publicKEY  = fs.readFileSync('public.key', 'utf8');
 require('dotenv').config()
 const port=process.env.PORT || 3000
-const server = Hapi.server({ port: port, host:process.env.HOST }); 
+const server = Hapi.server({ port: port, host: process.env.HOST }); 
 
 const init = async () => {
     
