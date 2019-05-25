@@ -80,5 +80,21 @@ module.exports =[
             id: Joi.string().min(3)
         }
     }
-      }}
+      }},
+      {
+        method: 'GET',
+        path: '/bestsellers',
+        config: {
+          tags: ['api'],
+          cors: {
+            origin: ['*']
+        },
+          handler: service.getBestSellersProducts,
+          validate: {
+            query: {
+              categoryId: Joi.string().required()
+          }
+        }
+        }
+      }
 ]

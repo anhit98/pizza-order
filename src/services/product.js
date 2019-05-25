@@ -6,6 +6,7 @@ var modelProduct = require('../models/product.js');
 var async = require('async');
 var mongoose = require('mongoose');
 var modelPrice = require('../models/price.js');
+var modelOrder = require('../models/order.js');
 const empty = require('is-empty');
 
 const validateProduct = {
@@ -127,6 +128,19 @@ var cate = {}
         });
     };
 
+    const getBestSellersProducts = function (req, reply) {
+          const categoryId =  mongoose.Types.ObjectId(req.query.categoryId)
+          return new Promise((resolve, reject) => {
+                  modelOrder.getBestSellerProducts(categoryId, function(err, products){ 
+                    if (err) {
+                      reject(Boom.badRequest(err));
+                    }
+                    resolve(reply.response({products: products }).code(200));
+                    
+          });
+        });
+      }
+
 module.exports = {
     getProducts,
     getProductById,
@@ -134,7 +148,8 @@ module.exports = {
     validateProduct,
     updateProduct,
     validateUpdateProduct,
-    deleteProduct
+    deleteProduct,
+    getBestSellersProducts
 
 }
 

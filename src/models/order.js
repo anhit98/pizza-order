@@ -131,10 +131,64 @@ const getOrders = (customer, cb) => OrderModel.aggregate([
   }} 
 
     ],cb);
+
+  const getBestSellerProducts = (cate, cb) => OrderModel.aggregate([
+
+      { $unwind: {
+        path: "$products",
+        preserveNullAndEmptyArrays: true
+    } },
+      
+      { $lookup:
+        {
+          from: 'products',
+          localField: 'products.productId',
+          foreignField: '_id',
+          as: 'product.product'
+        }
+      },      
+      {
+        $match: {"product.product.categoryId": cate}
+      },
+
+    
+      { $lookup:
+        {
+          from: 'prices',
+          localField: 'products.priceId',
+          foreignField: '_id',
+          as: 'product.price'
+        }
+      },
+        { $project: { 
+          "product.product": { "$arrayElemAt": [ "$product.product", 0 ] } ,
+          "product.total":{ $multiply: [ { "$arrayElemAt": [ "$product.price.price", 0 ] }, "$products.quantity" ] }
+    
+      }} ,
+        { $group: {
+          _id: "$_id",
+          products: { $push: "$product" }          
+        }},
+  
+        { $project: { 
+          "products.product.toppings": false,
+          "products.product.styles": false,
+           
+      }} ,
+      { $unwind: "$products"},
+      { $group: {
+        _id: "$products.product",
+        totalSales : { $sum : "$products.total" }
+      }},
+      { $sort : { totalSales : -1 } },
+      { $limit : 5 }       
+        ],cb);
+
   const updateOrderStatus = (id, data, cb) => OrderModel.findByIdAndUpdate({_id:id}, data, {new : true} , cb);
 
 module.exports = {
   createOrder,
   getOrders,
-  updateOrderStatus
+  updateOrderStatus,
+  getBestSellerProducts
 }
