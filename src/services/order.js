@@ -17,17 +17,16 @@ const validateOrder = {
     quantity: Joi.number().required()
   }).required())
 }
-const verifyToken = function (token) {
-  console.log("token");
+const verifyToken = async function (token) {
+
  if (!token)
  throw Boom.badRequest("No token provided!")
- // return decoded._id;
- return new Promise((resolve, reject) => {
-   jwt.verify(token, publicKEY, { algorithms: ['RS256'] }, function(err, decoded) {
-     if(err) reject(Boom.badRequest(err));
-     else resolve(decoded.id);
-   });
- });
+ try {
+  const decoded = await jwt.verify(token, publicKEY, { algorithms: ['RS256'] });
+  return decoded;
+ } catch (error) {
+   return Boom.badRequest(error);
+ }
 }
 
 const createOrder = async function (req, reply) {
@@ -38,6 +37,7 @@ const createOrder = async function (req, reply) {
     products: req.payload.products,
     status: req.payload.status
   };
+
     return new Promise((resolve, reject) => {
       model.createOrder(data, function(err, order){ 
         if (err) {
