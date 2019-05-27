@@ -2,12 +2,12 @@
 const service = require('../services/order.js');
 const Joi = require('joi');
 
+
 module.exports =[ {
     method: 'POST',
     path: '/orders/create',
     config: {
       tags: ['api'],
-      auth: false,      
       handler: service.createOrder,
         cors: {
           origin: ['*']

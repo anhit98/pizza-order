@@ -11,59 +11,45 @@ const validateStyle = {
  const validateUpdateStyle = {
   name: Joi.string().max(100).optional()
  }
-const createStyle = function (req, reply) {
-return new Promise((resolve, reject) => {
-  model.createStyle(req.payload, function(err, style){ 
-    if (err) {
-      reject(Boom.badRequest(err));
-    } else {
-      resolve(reply.response({style: style }).code(200));
-    }});
-  });
+const createStyle = async function (req, reply) {
+  try {
+    const style = await model.createStyle(req.payload);
+    return style;
+  } catch (error) {
+    Boom.badRequest(error);
+  }
 }
 
 
-const updateStyle = function (req, reply) {
-  return new Promise((resolve, reject) => {
-    model.updateStyle(req.params.id, req.payload, function(err, style){ 
-      if (err) {
-        reject(Boom.badRequest(err));
-      } else {
-        resolve(reply.response({style: style }).code(200));
-      }});
-    });
+const updateStyle = async function (req, reply) {
+  try {
+    const style = await model.updateStyle(req.params.id, req.payload);
+    return style;
+  } catch (error) {
+    Boom.badRequest(error);
+  }
+
 };
 
-const getAllStyles = function (req, reply) {
-  return new Promise((resolve, reject) => {
-    model.getAllStyles(function(err, styles){ 
-      if (err) {
-        reject(Boom.badRequest(err));
-      } else {
-        resolve(reply.response({styles: styles }).code(200));
-      }});
-    });
+const getAllStyles = async function (req, reply) {
+  const styles = await model.getAllStyles();
+  return styles;
+
 }
 
-const deleteStyle = function (req, reply) {
- 
-  return new Promise((resolve, reject) => {
-    model.deleteStyle(req.params.id, function(err, style){ 
-      if (err) {
-        reject(Boom.badRequest(err));
-      } else {
-        if(empty(style)|| style==null) {
-          reject(Boom.badRequest("Style id doesn't exist"));
+const deleteStyle = async function (req, reply) {
+ try {
+   const style = await model.deleteStyle(req.params.id);
+   if(empty(style)|| style==null) {
+    return Boom.badRequest("Style id doesn't exist");
 
-        } else {
-          resolve(reply.response({
-            message: "Style successfully deleted",
-            id: style._id
-        }).code(200));
-        }
-
-      }});
-    });
+  } else {
+    return style;
+  }
+   
+ } catch (error) {
+  Boom.badRequest(error);
+ }
 };
 
 

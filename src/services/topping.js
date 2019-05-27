@@ -13,59 +13,51 @@ const validateTopping = {
   name: Joi.string().max(100).optional(),
   image: Joi.string().max(400).optional()
  }
-const createTopping = function (req, reply) {
-return new Promise((resolve, reject) => {
-  model.createTopping(req.payload, function(err, topping){ 
-    if (err) {
-      reject(Boom.badRequest(err));
-    } else {
-      resolve(reply.response({topping: topping }).code(200));
-    }});
-  });
+const createTopping = async function (req, reply) {
+  try {
+    const topping = await model.createTopping(req.payload);
+    return topping;
+  } catch (error) {
+    return Boom.badRequest(error);
+  }
 }
 
 
-const updateTopping = function (req, reply) {
-  return new Promise((resolve, reject) => {
-    model.updateTopping(req.params.id, req.payload, function(err, topping){ 
-      if (err) {
-        reject(Boom.badRequest(err));
-      } else {
-        resolve(reply.response({topping: topping }).code(200));
-      }});
-    });
+const updateTopping = async function (req, reply) {
+  try {
+    const topping = await model.updateTopping(req.params.id, req.payload);
+    return topping;
+  } catch (error) {
+    return Boom.badRequest(error);
+  }
 };
 
-const getAllToppings = function (req, reply) {
-  return new Promise((resolve, reject) => {
-    model.getAllToppings(function(err, toppings){ 
-      if (err) {
-        reject(Boom.badRequest(err));
-      } else {
-        resolve(reply.response({toppings: toppings }).code(200));
-      }});
-    });
+const getAllToppings = async function (req, reply) {
+  try {
+    const toppings = await model.getAllToppings();
+    return toppings;
+  } catch (error) {
+    return Boom.badRequest(error);    
+  }
+
 }
 
-const deleteTopping = function (req, reply) {
- 
-  return new Promise((resolve, reject) => {
-    model.deleteTopping(req.params.id, function(err, topping){ 
-      if (err) {
-        reject(Boom.badRequest(err));
-      } else {
-        if(empty(topping)|| topping==null) {
-          reject(Boom.badRequest("Topping id doesn't exist"));
+const deleteTopping = async function (req, reply) {
+  try {
+    const topping = await model.deleteTopping(req.params.id);
+    if(empty(topping)|| topping==null) {
+      reject(Boom.badRequest("Topping id doesn't exist"));
 
-        } else {
-          resolve(reply.response({
-            message: "Topping successfully deleted",
-            id: topping._id
-        }).code(200));
-        }
+    } else {
+      return {
+        message: "Topping successfully deleted",
+        id: topping._id
+    };
+    }
+  } catch (error) {
+    return Boom.badRequest(error);    
+  }
 
-      }});
-    });
 };
 
 

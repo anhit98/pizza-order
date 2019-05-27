@@ -19,77 +19,65 @@ const validatePrice = {
     description: Joi.string().max(400).optional(),
     productId: Joi.string().max(400).optional()
  }
-//  const checkIfProductIdExist = async function(id)
-const checkIfProductIdExist = function (id) {
-    console.log(id);
-   return new Promise((resolve, reject) => {
-     modelProduct.checkIfProductExist(id, function(err, product) {
-       if(err) reject(Boom.badRequest(err));
-       else resolve(product);
-     });
-   });
+const checkIfProductIdExist = async function (id) {
+  try {
+    const product = await modelProduct.checkIfProductExist(id);
+    return product;
+  } catch (error) {
+    return Boom.badRequest(error);
+  }
   }
 const createPrice = async function (req, reply) {
 if(!mongoose.Types.ObjectId.isValid(req.params.id)) throw Boom.badRequest("invalid id format!");    
 const checkproId = await checkIfProductIdExist(req.payload.productId);
 if(empty(checkproId) )  throw Boom.badRequest("Product id doesn't exist");
-return new Promise((resolve, reject) => {
-  model.createPrice(req.payload, function(err, price){ 
-    if (err) {
-      reject(Boom.badRequest(err));
-    } else {
-      resolve(reply.response({price: price }).code(200));
-    }});
-  });
+try {
+  const price = await model.createPrice(req.payload);
+  return price;
+} catch (error) {
+  Boom.badRequest(error);
+}
+
 }
 
 
-const updatePrice = function (req, reply) {
-if(!mongoose.Types.ObjectId.isValid(req.params.id)) throw Boom.badRequest("invalid id format!");       
-  return new Promise((resolve, reject) => {
-    model.updatePrice(req.params.id, req.payload, function(err, price){ 
-      if (err) {
-        reject(Boom.badRequest(err));
-      } else {
-        resolve(reply.response({price: price }).code(200));
-      }});
-    });
+const updatePrice = async function (req, reply) {
+  if(!mongoose.Types.ObjectId.isValid(req.params.id)) throw Boom.badRequest("invalid id format!");       
+  try {
+    const price  =await model.updatePrice(req.params.id, req.payload);
+    return price;
+  } catch (error) {
+    Boom.badRequest(error);
+  }
+
 };
 
 const getPrice = async function (req, reply) {
   if(!mongoose.Types.ObjectId.isValid(req.query.productId)) throw Boom.badRequest("invalid id format!");    
   const checkproId = await checkIfProductIdExist(req.query.productId);
   if(empty(checkproId) )  throw Boom.badRequest("Product id doesn't exist");
-  let productId = {productId:  mongoose.Types.ObjectId(req.query.productId)}
-  return new Promise((resolve, reject) => {
-    model.getPrice(productId, function(err, price){ 
-      if (err) {
-        reject(Boom.badRequest(err));
-      } else {
-        resolve(reply.response({price: price }).code(200));
-      }});
-    });
+  let productId = {productId:  mongoose.Types.ObjectId(req.query.productId)};
+  try {
+    const price = await model.getPrice(productId);
+    return price;
+  } catch (error) {
+    Boom.badRequest(error);
+  }
 }
 
-const deletePrice = function (req, reply) {
+const deletePrice = async function (req, reply) {
 if(!mongoose.Types.ObjectId.isValid(req.params.id)) throw Boom.badRequest("invalid id format!");     
-  return new Promise((resolve, reject) => {
-    model.deletePrice(req.params.id, function(err, price){ 
-      if (err) {
-        reject(Boom.badRequest(err));
-      } else {
-          if(empty(price)|| price==null) {
-              reject(Boom.badRequest("Price id doesn't exist"));
+try {
+    const price = await model.deletePrice(req.params.id);
+    if(empty(price)|| price==null) {
+      reject(Boom.badRequest("Price id doesn't exist"));
+    } else {
+      return price;
+    }
 
-            } else {
-
-                resolve(reply.response({
-                message: "Price successfully deleted",
-                id: price._id
-                }).code(200));
-            }
-      }});
-    });
+  } catch (error) {
+    return Boom.badRequest(error);
+  }
 };
 
 

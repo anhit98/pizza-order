@@ -16,13 +16,13 @@ const toppingSchema = new Schema({
 });
 const ToppingModel = mongoose.model('Topping', toppingSchema);
 
-const createTopping =  (topping,cb) =>  ToppingModel.create(topping,cb);
+const createTopping =  (topping) =>  ToppingModel.create(topping);
 
-const updateTopping = (id, data, cb) => ToppingModel.findByIdAndUpdate({_id:id}, data, {new : true} , cb);
+const updateTopping = (id, data) => ToppingModel.findByIdAndUpdate({_id:id}, data, {new : true} );
 
-const getAllToppings = (cb) => ToppingModel.find(cb);
+const getAllToppings = () => ToppingModel.find();
 
-const deleteTopping = (id, cb) => ToppingModel.findByIdAndRemove({_id:id}, cb);
+const deleteTopping = (id) => ToppingModel.findByIdAndRemove({_id:id});
 
 
 module.exports = {

@@ -11,13 +11,13 @@ const styleSchema = new Schema({
 });
 const StyleModel = mongoose.model('Style', styleSchema);
 
-const createStyle =  (style,cb) =>  StyleModel.create(style,cb);
+const createStyle =  (style) =>  StyleModel.create(style);
 
-const updateStyle = (id, data, cb) => StyleModel.findByIdAndUpdate({_id:id}, data, {new : true} , cb);
+const updateStyle = (id, data) => StyleModel.findByIdAndUpdate({_id:id}, data, {new : true});
 
-const getAllStyles = (cb) => StyleModel.find(cb);
+const getAllStyles = () => StyleModel.find();
 
-const deleteStyle = (id, cb) => StyleModel.findByIdAndRemove({_id:id}, cb);
+const deleteStyle = (id) => StyleModel.findByIdAndRemove({_id:id});
 
 module.exports = {
   createStyle,

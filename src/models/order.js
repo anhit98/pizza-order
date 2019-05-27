@@ -10,7 +10,10 @@ const orderSchema = new Schema({
       },
       customerId: {
         type: Schema.Types.ObjectId,
-        required: [true, 'userId is required']
+        required: [true, 'user id is required']
+      },
+      shippingAddress: {
+        type: String
       },
       products: [{
         productId: {
@@ -53,9 +56,9 @@ const orderSchema = new Schema({
 
 const OrderModel = mongoose.model('Order', orderSchema);
 
-const createOrder =  (order,cb) =>  OrderModel.create(order,cb);
+const createOrder =  (order) =>  OrderModel.create(order);
 
-const getOrders = (customer, cb) => OrderModel.aggregate([
+const getOrders = (customer) => OrderModel.aggregate([
   {
     $match: customer,
   },
@@ -130,9 +133,9 @@ const getOrders = (customer, cb) => OrderModel.aggregate([
 
   }} 
 
-    ],cb);
+    ]);
 
-  const getBestSellerProducts = (cate, cb) => OrderModel.aggregate([
+  const getBestSellerProducts = (cate) => OrderModel.aggregate([
 
       { $unwind: {
         path: "$products",
@@ -182,9 +185,9 @@ const getOrders = (customer, cb) => OrderModel.aggregate([
       }},
       { $sort : { totalSales : -1 } },
       { $limit : 5 }       
-        ],cb);
+        ]);
 
-  const updateOrderStatus = (id, data, cb) => OrderModel.findByIdAndUpdate({_id:id}, data, {new : true} , cb);
+  const updateOrderStatus = (id, data) => OrderModel.findByIdAndUpdate({_id:id}, data, {new : true});
 
 module.exports = {
   createOrder,
