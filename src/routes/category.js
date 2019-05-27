@@ -7,7 +7,7 @@ module.exports =[ {
     path: '/categories',
     config: {
       tags: ['api'],
-      // auth: ,
+      auth: false,
       handler: service.createCategory,
       validate: {
         payload: service.validateCategory
@@ -22,6 +22,7 @@ module.exports =[ {
   path: `/categories/{id}`,
   config: {
     tags: ['api'],
+    auth: false,    
     handler: service.updateCategory,
     cors: {
       origin: ['*']
@@ -38,6 +39,7 @@ module.exports =[ {
     path: `/categories`,
     config: {
       tags: ['api'],
+      auth: false,      
       handler: service.getAllCategories,
       cors: {
         origin: ['*']
@@ -49,6 +51,7 @@ module.exports =[ {
       path: `/categories/{id}`,
       config: {
         tags: ['api'],
+      auth: false,        
         handler: service.deleteCategory,
         cors: {
           origin: ['*']

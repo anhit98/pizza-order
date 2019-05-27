@@ -6,7 +6,9 @@ const fs   = require('fs');
 const HapiSwagger = require('hapi-swagger');
 const Pack = require('./../package');
 var publicKEY  = fs.readFileSync('public.key', 'utf8');
-require('dotenv').config()
+require('dotenv').config();
+const Authentication = require("./plugin/user");
+
 const port=process.env.PORT || 3000
 const server = Hapi.server({ port: port, host: process.env.HOST }); 
 
@@ -24,7 +26,8 @@ const init = async () => {
             {
                 plugin: HapiSwagger,
                 options: swaggerOptions
-            }
+            },
+            Authentication
         ]);
         await server.start(); 
         require("./models/topping");

@@ -7,6 +7,7 @@ module.exports =[
     path: '/products',
     config: {
       tags: ['api'],
+      auth: false,      
       cors: {
         origin: ['*']
     },
@@ -14,8 +15,8 @@ module.exports =[
       validate: {
         query: {
           categoryId: Joi.string().optional(),
-          pageNo: Joi.string().required(),
-          size: Joi.string().required()
+          pageNo: Joi.number().required(),
+          size: Joi.number().required()
       }
     }
     }
@@ -25,6 +26,7 @@ module.exports =[
     path: '/products/{id}',
     config: {
       tags: ['api'],
+      auth: false,      
       cors: {
         origin: ['*']
     },
@@ -41,6 +43,7 @@ module.exports =[
     path: '/products',
     config: {
       tags: ['api'],
+      auth: false,      
       cors: {
         origin: ['*']
     },
@@ -55,6 +58,7 @@ module.exports =[
     path: `/products/{id}`,
     config: {
       tags: ['api'],
+      auth: false,      
       handler: service.updateProduct,
       cors: {
         origin: ['*']
@@ -71,6 +75,7 @@ module.exports =[
       path: `/products/{id}`,
       config: {
         tags: ['api'],
+        auth: false,        
         handler: service.deleteProduct,
         cors: {
           origin: ['*']
@@ -86,6 +91,7 @@ module.exports =[
         path: '/bestsellers',
         config: {
           tags: ['api'],
+          auth: false,          
           cors: {
             origin: ['*']
         },

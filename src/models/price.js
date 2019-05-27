@@ -38,6 +38,5 @@ module.exports = {
   createPrice,
   updatePrice,
   getPrice,
-  deletePrice,
-  
+  deletePrice
 }

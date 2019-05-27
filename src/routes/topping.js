@@ -7,7 +7,7 @@ module.exports =[ {
     path: '/toppings',
     config: {
       tags: ['api'],
-      // auth: ,
+      auth: false,      
       handler: service.createTopping,
       validate: {
         payload: service.validateTopping
@@ -22,6 +22,7 @@ module.exports =[ {
   path: `/toppings/{id}`,
   config: {
     tags: ['api'],
+    auth: false,    
     handler: service.updateTopping,
     cors: {
       origin: ['*']
@@ -38,6 +39,7 @@ module.exports =[ {
     path: `/toppings`,
     config: {
       tags: ['api'],
+      auth: false,      
       handler: service.getAllToppings,
       cors: {
         origin: ['*']
@@ -49,6 +51,7 @@ module.exports =[ {
       path: `/toppings/{id}`,
       config: {
         tags: ['api'],
+      auth: false,        
         handler: service.deleteTopping,
         cors: {
           origin: ['*']

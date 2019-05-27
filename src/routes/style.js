@@ -7,7 +7,7 @@ module.exports =[ {
     path: '/styles',
     config: {
       tags: ['api'],
-      // auth: ,
+      auth: false,
       handler: service.createStyle,
       validate: {
         payload: service.validateStyle
@@ -22,6 +22,7 @@ module.exports =[ {
   path: `/styles/{id}`,
   config: {
     tags: ['api'],
+    auth: false,    
     handler: service.updateStyle,
     cors: {
       origin: ['*']
@@ -38,6 +39,7 @@ module.exports =[ {
     path: `/styles`,
     config: {
       tags: ['api'],
+      auth: false,      
       handler: service.getAllStyles,
       cors: {
         origin: ['*']
@@ -49,6 +51,7 @@ module.exports =[ {
       path: `/styles/{id}`,
       config: {
         tags: ['api'],
+        auth: false,        
         handler: service.deleteStyle,
         cors: {
           origin: ['*']

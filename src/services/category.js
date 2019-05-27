@@ -15,44 +15,41 @@ const validateCategory = {
   image: Joi.string().max(400).optional()
  }
  
-const createCategory = function (req, reply) {
-return new Promise((resolve, reject) => {
-  model.createCategory(req.payload, function(err, category){ 
-    if (err) {
-      reject(Boom.badRequest(err));
-    } else {
-      resolve(reply.response({category: category }).code(200));
-    }});
-  });
+const createCategory = async function (req, reply) {
+  try {
+    const category = model.createCategory(req.payload);
+    return category;
+  } catch (error) {
+    return Boom.badRequest(error);
+  }
 }
 
 
-const updateCategory = function (req, reply) {
+const updateCategory = async function (req, reply) {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) throw Boom.badRequest("invalid id format!");
-    return new Promise((resolve, reject) => {
-    model.updateCategory(req.params.id, req.payload, function(err, category){ 
-      if (err) {
-        reject(Boom.badRequest(err));
-      } else {
-        resolve(reply.response({category: category }).code(200));
-      }});
-    });
+  try {
+    const category = await model.updateCategory(req.params.id, req.payload);
+    return category;
+  } catch (error) {
+    Boom.badRequest(error);
+  }
+
 };
 
-const getAllCategories = function (req, reply) {
-  return new Promise((resolve, reject) => {
-    model.getAllCategories(function(err, categories){ 
-      if (err) {
-        reject(Boom.badRequest(err));
-      } else {
-        resolve(reply.response({categories: categories }).code(200));
-      }});
-    });
+const getAllCategories = async function (req, reply) {
+  try {
+    const categories = await model.getAllCategories();
+    return categories;
+  } catch (error) {
+    return Boom.badRequest(err);
+  }
+
 }
 
-const deleteCategory = function (req, reply) {
-  console.log(mongoose.Types.ObjectId.isValid(req.params.id))
+const deleteCategory = async function (req, reply) {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) throw Boom.badRequest("invalid id format!");
+
+    
   return new Promise((resolve, reject) => {
     model.deleteCategory(req.params.id, function(err, category){ 
       if (err) {

@@ -7,7 +7,7 @@ module.exports =[ {
     path: '/prices',
     config: {
       tags: ['api'],
-      // auth: ,
+      auth: false,      
       handler: service.createPrice,
       validate: {
         payload: service.validatePrice
@@ -22,6 +22,7 @@ module.exports =[ {
   path: `/prices/{id}`,
   config: {
     tags: ['api'],
+    auth: false,    
     handler: service.updatePrice,
     cors: {
       origin: ['*']
@@ -38,6 +39,7 @@ module.exports =[ {
     path: `/prices`,
     config: {
       tags: ['api'],
+      auth: false,      
       handler: service.getPrice,
       cors: {
         origin: ['*']
@@ -54,6 +56,7 @@ module.exports =[ {
       path: `/prices/{id}`,
       config: {
         tags: ['api'],
+        auth: false,
         handler: service.deletePrice,
         cors: {
           origin: ['*']

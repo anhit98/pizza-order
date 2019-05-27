@@ -29,29 +29,25 @@ const validateUpdateProduct = {
 }
 
 const createProduct = async function (req, reply) {
-    return new Promise((resolve, reject) => {
-    modelProduct.createProduct(req.payload, function(err, product){ 
-    if (err) {
-      reject(Boom.badRequest(err));
-    } else {
-      resolve(reply.response({product: product }).code(200));
-    }});
-  });
+     try {
+      const product = await modelProduct.createProduct(req.payload);
+      return product;
+     } catch (error) {
+      return Boom.badRequest(error);
+     }
 }
 
-const updateProduct = function (req, reply) {
+const updateProduct = async function (req, reply) {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) throw Boom.badRequest("invalid id format!");
-    return new Promise((resolve, reject) => {
-    modelProduct.updateProduct(req.params.id, req.payload, function(err, product){ 
-      if (err) {
-        reject(Boom.badRequest(err));
-      } else {
-        resolve(reply.response({product: product }).code(200));
-      }});
-    });
+  try {
+      const updatedProduct = await updateProduct(req.params.id, req.payload);
+      return updatedProduct;
+  } catch (error) {
+      return Boom.badRequest(err);
+  }
 };
 
-const getProducts = function (req, reply) {
+const getProducts = async function (req, reply) {
 var cate = {}
   if(req.query.categoryId){
     cate = {
@@ -64,83 +60,71 @@ var cate = {}
   if(pageNo < 0 || pageNo === 0) {
         throw Boom.badRequest("Invalid page number, should start with 1");
   }
-    return new Promise((resolve, reject) => {
-          modelProduct.countProduct(cate, function(err, totalCount){ 
-            if (err) {
-              reject(Boom.badRequest(err));
-            } else {     
-              console.log(totalCount)       
-              modelProduct.getProductsByCate(pageNo, size, cate, function(err, products){ 
-              if (err) {
-                reject(Boom.badRequest(err));
-              }
-              resolve(reply.response([{products: products }, {pages: Math.ceil(totalCount / size)}]).code(200));
-              
-        });
-      }
-    });
-  });
+          try {
+            const totalCount = await countProduct(cate);
+            const products = await getProductsByCate(pageNo, size, cate);
+            const result = [{products: products }, {pages: Math.ceil(totalCount / size)}];
+            return result;
+          } catch (error) {
+            return Boom.badRequest(error);
+          }
 }
+
   const getProductById = async function (req, reply) {
     const id = req.params.id;
-      return new Promise((resolve, reject) => {
-            modelProduct.getProductsById(id, function(err, product){ 
-              console.log(product)
-              if (err) {
-                reject(Boom.badRequest(err));
-              }
-              resolve(reply.response({product: product[0]}).code(200));
-              });
-              
-        });
+    try {
+      const product = modelProduct.getProductsById(id);
+
+      return {product: product[0]};
+    } catch (error) {
+      return Boom.badRequest(error);
     }
-    const checkIfPriceDeleted = function (id) {
-      let productId = {productId:  mongoose.Types.ObjectId(id)}
-      return new Promise((resolve, reject) => {
-        modelPrice.getPrice(productId, function(err, price){ 
-          if (err) {
-            reject(Boom.badRequest(err));
-          } else {
-            resolve(price);
-          }});
-        });
+
     }
+
+
+    const checkIfPriceDeleted = async function (id) {
+      let productId = {productId:  mongoose.Types.ObjectId(id)};
+      try {
+        const price = await modelPrice.getPrice(productId);
+        return price;
+      } catch (error) {
+        return Boom.badRequest(err);
+      }
+    }
+
     const deleteProduct = async function (req, reply) {
       if(!mongoose.Types.ObjectId.isValid(req.params.id)) throw Boom.badRequest("invalid id format!");
       const isPriceDeleted = await checkIfPriceDeleted(req.params.id);
       if(isPriceDeleted.length) throw Boom.badRequest("Please delete all price of the product!");
-      return new Promise((resolve, reject) => {
-        modelProduct.deleteProduct(req.params.id, function(err, product){ 
-          if (err) {
-            reject(Boom.badRequest(err));
-          } else {
-            if(empty(product)|| product==null) {
-              reject(Boom.badRequest("Product id doesn't exist"));
-    
-            } else {
-              resolve(reply.response({
-                message: "Product successfully deleted",
-                id: product._id
-            }).code(200));
-          }
-    
-          }});
-        });
+      const product = await modelProduct.deleteProduct(req.params.id);          
+      try {
+        if(empty(product)|| product==null) {
+          return Boom.badRequest("Product id doesn't exist");
+
+        } else {
+          const result = {
+            message: "Product successfully deleted",
+            id: product._id
+        };
+          return result;
+      }
+        
+      } catch (error) {
+        return Boom.badRequest(err);
+      }
     };
 
-    const getBestSellersProducts = function (req, reply) {
-          const categoryId =  mongoose.Types.ObjectId(req.query.categoryId)
-          return new Promise((resolve, reject) => {
-                  modelOrder.getBestSellerProducts(categoryId, function(err, products){ 
-                    if (err) {
-                      reject(Boom.badRequest(err));
-                    }
-                    resolve(reply.response({products: products }).code(200));
-                    
-          });
-        });
+    const getBestSellersProducts = async function (req, reply) {
+          const categoryId =  mongoose.Types.ObjectId(req.query.categoryId);
+          try {
+            const bestSellerProducts = modelOrder.getBestSellerProducts(categoryId);
+            return bestSellerProducts;
+          } catch (error) {
+              return Boom.badRequest(error);
+          }
       }
-
+      
 module.exports = {
     getProducts,
     getProductById,
