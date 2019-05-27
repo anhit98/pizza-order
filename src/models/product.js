@@ -48,7 +48,7 @@ const productSchema = new Schema({
 
 const ProductModel = mongoose.model('Product', productSchema);
 
-const getProductsByCate = (pageNo, size, cate, cb) => ProductModel.aggregate([
+const getProductsByCate = (pageNo, size, cate) => ProductModel.aggregate([
   {
     $match: cate,
   },
@@ -80,7 +80,7 @@ const getProductsByCate = (pageNo, size, cate, cb) => ProductModel.aggregate([
      { $skip : size * (pageNo - 1) },
      { $limit : size }
      
-    ],cb);
+    ]);
 
 const getProductsById =  (id) =>  ProductModel.aggregate([
   {

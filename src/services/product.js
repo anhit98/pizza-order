@@ -73,9 +73,10 @@ var cate = {}
   const getProductById = async function (req, reply) {
     const id = req.params.id;
     try {
-      const product = modelProduct.getProductsById(id);
+      const product = await modelProduct.getProductsById(id);
 
       return {product: product[0]};
+
     } catch (error) {
       return Boom.badRequest(error);
     }
