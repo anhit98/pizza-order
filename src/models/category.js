@@ -16,11 +16,11 @@ const categorySchema = new Schema({
 });
 const CategoryModel = mongoose.model('Category', categorySchema);
 
-const createCategory =  (category,cb) =>  CategoryModel.create(category,cb);
+const createCategory =  (category) =>  CategoryModel.create(category);
 
 const updateCategory = (id, data, cb) => CategoryModel.findByIdAndUpdate({_id:id}, data, {new : true} , cb);
 
-const getAllCategories = (cb) => CategoryModel.find(cb);
+const getAllCategories = () => CategoryModel.find();
 
 const getCatebyId = (id, cb) => CategoryModel.findById({_id:id},{"image":0}, cb);
 
