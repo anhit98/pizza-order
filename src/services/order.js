@@ -24,7 +24,7 @@ const verifyToken = async function (token) {
  throw Boom.badRequest("No token provided!")
  try {
   const decoded = await jwt.verify(token, publicKEY, { algorithms: ['RS256'] });
-  return decoded._id;
+  return decoded.id;
  } catch (error) {
    return Boom.badRequest(error);
  }
