@@ -9,35 +9,10 @@ const validateCategory = {
   name: Joi.string().max(100).required(),
   image: Joi.string().max(400).required()
 }
-
  const validateUpdateCategory = {
   name: Joi.string().max(100).optional(),
   image: Joi.string().max(400).optional()
  }
-<<<<<<< HEAD
-
-const createCategory = function (req, reply) {
-return new Promise((resolve, reject) => {
-  model.createCategory(req.payload, function(err, category){ 
-    if (err) {
-      reject(Boom.badRequest(err));
-    } else {
-      resolve(reply.response({category: category }).code(200));
-    }});
-  });
-}
-
-const updateCategory = function (req, reply) {
-  return new Promise((resolve, reject) => {
-    model.updateCategory(req.params.id, req.payload, function(err, category){ 
-      if (err) {
-        reject(Boom.badRequest(err));
-      } else {
-        resolve(reply.response({category: category }).code(200));
-      }});
-    });
-=======
- 
 const createCategory = async function (req, reply) {
   try {
     const category = model.createCategory(req.payload);
@@ -46,7 +21,6 @@ const createCategory = async function (req, reply) {
     return Boom.badRequest(error);
   }
 }
-
 
 const updateCategory = async function (req, reply) {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) throw Boom.badRequest("invalid id format!");
@@ -57,9 +31,7 @@ const updateCategory = async function (req, reply) {
     Boom.badRequest(error);
   }
 
->>>>>>> 81d1a989b3d7ff981815f07cb180e662cc40cc24
 };
-
 const getAllCategories = async function (req, reply) {
   try {
     const categories = await model.getAllCategories();
@@ -69,7 +41,6 @@ const getAllCategories = async function (req, reply) {
   }
 
 }
-
 const deleteCategory = async function (req, reply) {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) throw Boom.badRequest("invalid id format!");
 
@@ -92,10 +63,6 @@ const deleteCategory = async function (req, reply) {
       }});
     });
 };
-
-
-
-
 module.exports = {
   createCategory,
   validateCategory,
@@ -104,5 +71,3 @@ module.exports = {
   deleteCategory,
   validateUpdateCategory
 }
-
-
