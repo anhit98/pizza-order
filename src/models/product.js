@@ -75,7 +75,6 @@ const getProductsByCate = (pageNo, size, cate, cb) => ProductModel.aggregate([
        'categoryId':false,
        'description': false,
        'prices.productId':false
-  
       }
      },
      { $skip : size * (pageNo - 1) },

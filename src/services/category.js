@@ -14,7 +14,7 @@ const validateCategory = {
   name: Joi.string().max(100).optional(),
   image: Joi.string().max(400).optional()
  }
- 
+
 const createCategory = function (req, reply) {
 return new Promise((resolve, reject) => {
   model.createCategory(req.payload, function(err, category){ 
@@ -25,7 +25,6 @@ return new Promise((resolve, reject) => {
     }});
   });
 }
-
 
 const updateCategory = function (req, reply) {
   return new Promise((resolve, reject) => {
