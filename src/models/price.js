@@ -25,9 +25,18 @@ const priceSchema = new Schema({
 });
 
 const PriceModel = mongoose.model('Price', priceSchema);
-const createPrice =  (price,cb) =>  PriceModel.insertMany(price,cb);
+const createPrice =  (price,cb) =>  PriceModel.create(price,cb);
+
+const updatePrice = (id, data, cb) => PriceModel.findByIdAndUpdate({_id:id}, data, {new : true} , cb);
+
+const getPrice = (productId, cb) => PriceModel.find(productId, cb);
+
+const deletePrice = (id, cb) => PriceModel.findByIdAndRemove({_id:id}, cb);
+
 
 module.exports = {
-    createPrice,
-    PriceModel
+  createPrice,
+  updatePrice,
+  getPrice,
+  deletePrice
 }

@@ -112,11 +112,18 @@ const getProductsById =  (id, cb) =>  ProductModel.aggregate([
 }
   
  ],cb);
+ const checkIfProductExist = (id, cb) => ProductModel.findById({_id: mongoose.Types.ObjectId(id)},cb);
 const countProduct = (cate, cb) => ProductModel.find(cate).countDocuments(cb);
-const createProduct =  (product,cb) =>  ProductModel.create(product,cb);
+const createProduct =  (product,cb) =>  ProductModel.create(product);
+const updateProduct = (id, data) => ProductModel.findByIdAndUpdate({_id:id}, data, {new : true});
+const deleteProduct = (id, cb) => ProductModel.findByIdAndRemove({_id:id}, cb);
+
 module.exports = {
   getProductsByCate,
   getProductsById,
   countProduct,
-  createProduct
+  createProduct,
+  checkIfProductExist,
+  updateProduct,
+  deleteProduct
 }

@@ -38,7 +38,6 @@ const createOrder = async function (req, reply) {
     products: req.payload.products,
     status: req.payload.status
   };
-console.log(data)
     return new Promise((resolve, reject) => {
       model.createOrder(data, function(err, order){ 
         if (err) {
@@ -66,10 +65,22 @@ const getOrders = function (req, reply) {
     });
   }
 
+  const updateOrderStatus = function (req, reply) {
+    if(!mongoose.Types.ObjectId.isValid(req.params.id)) throw Boom.badRequest("invalid id format!");
+      return new Promise((resolve, reject) => {
+      model.updateOrderStatus(req.params.id, req.payload, function(err, order){ 
+        if (err) {
+          reject(Boom.badRequest(err));
+        } else {
+          resolve(reply.response({order: order }).code(200));
+        }});
+      });
+  };
 module.exports = {
     createOrder,
     validateOrder,
-    getOrders
+    getOrders,
+    updateOrderStatus
 }
 
 

@@ -13,7 +13,7 @@ const register = async server => {
 
   server.auth.strategy('jwt', 'jwt', {
     key: publicKEY,
-    verifyOptions: { algorithms: ['HS256'] },
+    verifyOptions: { algorithms: ['RS256'] },
     validate,
   });
 

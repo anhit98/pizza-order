@@ -52,10 +52,16 @@ const deleteStyle = function (req, reply) {
       if (err) {
         reject(Boom.badRequest(err));
       } else {
-        resolve(reply.response({
-          message: "Style successfully deleted",
-          id: style._id
-      }).code(200));
+        if(empty(style)|| style==null) {
+          reject(Boom.badRequest("Style id doesn't exist"));
+
+        } else {
+          resolve(reply.response({
+            message: "Style successfully deleted",
+            id: style._id
+        }).code(200));
+        }
+
       }});
     });
 };

@@ -7,7 +7,7 @@ module.exports =[ {
     path: '/orders/create',
     config: {
       tags: ['api'],
-      // auth: ,
+      auth: false,      
       handler: service.createOrder,
         cors: {
           origin: ['*']
@@ -26,7 +26,7 @@ module.exports =[ {
     path: '/orders',
     config: {
       tags: ['api'],
-      // auth: ,
+      auth: false,
       handler: service.getOrders,
         cors: {
           origin: ['*']
@@ -34,6 +34,27 @@ module.exports =[ {
       validate: {
         query: {
           customerId: Joi.string().optional()
+      }
+    }
+    }
+  },
+  {
+    method: 'PUT',
+    path: '/orders/{id}',
+    config: {
+      tags: ['api'],
+      auth: false,              
+      // auth: ,
+      handler: service.updateOrderStatus,
+        cors: {
+          origin: ['*']
+      },
+      validate: {
+        payload: {
+          status: Joi.string().valid(["submitted", "processing", "completed", "cancelled"]).required()
+      },
+        params: {
+          id: Joi.string().required()
       }
     }
     }

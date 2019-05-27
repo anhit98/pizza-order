@@ -54,10 +54,16 @@ const deleteTopping = function (req, reply) {
       if (err) {
         reject(Boom.badRequest(err));
       } else {
-        resolve(reply.response({
-          message: "Topping successfully deleted",
-          id: topping._id
-      }).code(200));
+        if(empty(topping)|| topping==null) {
+          reject(Boom.badRequest("Topping id doesn't exist"));
+
+        } else {
+          resolve(reply.response({
+            message: "Topping successfully deleted",
+            id: topping._id
+        }).code(200));
+        }
+
       }});
     });
 };

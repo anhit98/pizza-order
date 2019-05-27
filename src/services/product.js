@@ -6,6 +6,8 @@ var modelProduct = require('../models/product.js');
 var async = require('async');
 var mongoose = require('mongoose');
 var modelPrice = require('../models/price.js');
+var modelOrder = require('../models/order.js');
+const empty = require('is-empty');
 
 const validateProduct = {
   name: Joi.string().max(100).required(),
@@ -14,43 +16,38 @@ const validateProduct = {
   ingredients: Joi.string().required(),
   description: Joi.string().optional(),
   styles: Joi.array().optional(),
-  toppings: Joi.array().optional(),
-  price: Joi.array().required().items(Joi.object({
-    price: Joi.number().required(),
-    size: Joi.string().required(),
-    description: Joi.string().required()
-  }).required())
+  toppings: Joi.array().optional()
 }
-// async function saveAll(priceArr) {
-//     console.log(priceArr);
-//     const promises = priceArr.map(priceItem => modelPrice.createPrice(priceItem));
-//     const responses = await Promise.all(promises);
-//     return responses;
-// }
+const validateUpdateProduct = {
+  name: Joi.string().max(100).optional(),
+  image: Joi.array().optional(),
+  categoryId: Joi.string().optional(),
+  ingredients: Joi.string().optional(),
+  description: Joi.string().optional(),
+  styles: Joi.array().optional(),
+  toppings: Joi.array().optional()
+}
+
 const createProduct = async function (req, reply) {
-  const priceArr = req.payload.price;
-  delete req.payload.price;
-    return new Promise((resolve, reject) => {
-
-    modelProduct.createProduct(req.payload, function(err, product){ 
-    if (err) {
-      reject(Boom.badRequest(err));
-    } else {
-              priceArr.forEach(function (item) {
-                item.productId = product._id
-                
-            });
-                modelPrice.createPrice(priceArr, function(err,price){ 
-                    if (err) {
-                        reject(Boom.badRequest(err));
-                    }
-                        resolve(reply.response([{product: product},{price: price}]).code(200));
-                    });
-    }});
-  });
+     try {
+      const product = await modelProduct.createProduct(req.payload);
+      return product;
+     } catch (error) {
+      return Boom.badRequest(error);
+     }
 }
 
-const getProducts = function (req, reply) {
+const updateProduct = async function (req, reply) {
+  if(!mongoose.Types.ObjectId.isValid(req.params.id)) throw Boom.badRequest("invalid id format!");
+  try {
+      const updatedProduct = await updateProduct(req.params.id, req.payload);
+      return updatedProduct;
+  } catch (error) {
+      return Boom.badRequest(err);
+  }
+};
+
+const getProducts = async function (req, reply) {
 var cate = {}
   if(req.query.categoryId){
     cate = {
@@ -63,42 +60,81 @@ var cate = {}
   if(pageNo < 0 || pageNo === 0) {
         throw Boom.badRequest("Invalid page number, should start with 1");
   }
-    return new Promise((resolve, reject) => {
-          modelProduct.countProduct(cate, function(err, totalCount){ 
-            if (err) {
-              reject(Boom.badRequest(err));
-            } else {     
-              console.log(totalCount)       
-              modelProduct.getProductsByCate(pageNo, size, cate, function(err, products){ 
-              if (err) {
-                reject(Boom.badRequest(err));
-              }
-              resolve(reply.response([{products: products }, {pages: Math.ceil(totalCount / size)}]).code(200));
-              
-        });
-      }
-    });
-  });
+          try {
+            const totalCount = await countProduct(cate);
+            const products = await getProductsByCate(pageNo, size, cate);
+            const result = [{products: products }, {pages: Math.ceil(totalCount / size)}];
+            return result;
+          } catch (error) {
+            return Boom.badRequest(error);
+          }
 }
+
   const getProductById = async function (req, reply) {
     const id = req.params.id;
-      return new Promise((resolve, reject) => {
-            modelProduct.getProductsById(id, function(err, product){ 
-              console.log(product)
-              if (err) {
-                reject(Boom.badRequest(err));
-              }
-              resolve(reply.response({product: product[0]}).code(200));
-              });
-              
-        });
+    try {
+      const product = modelProduct.getProductsById(id);
+
+      return {product: product[0]};
+    } catch (error) {
+      return Boom.badRequest(error);
     }
 
+    }
+
+
+    const checkIfPriceDeleted = async function (id) {
+      let productId = {productId:  mongoose.Types.ObjectId(id)};
+      try {
+        const price = await modelPrice.getPrice(productId);
+        return price;
+      } catch (error) {
+        return Boom.badRequest(err);
+      }
+    }
+
+    const deleteProduct = async function (req, reply) {
+      if(!mongoose.Types.ObjectId.isValid(req.params.id)) throw Boom.badRequest("invalid id format!");
+      const isPriceDeleted = await checkIfPriceDeleted(req.params.id);
+      if(isPriceDeleted.length) throw Boom.badRequest("Please delete all price of the product!");
+      const product = await modelProduct.deleteProduct(req.params.id);          
+      try {
+        if(empty(product)|| product==null) {
+          return Boom.badRequest("Product id doesn't exist");
+
+        } else {
+          const result = {
+            message: "Product successfully deleted",
+            id: product._id
+        };
+          return result;
+      }
+        
+      } catch (error) {
+        return Boom.badRequest(err);
+      }
+    };
+
+    const getBestSellersProducts = async function (req, reply) {
+          const categoryId =  mongoose.Types.ObjectId(req.query.categoryId);
+          try {
+            const bestSellerProducts = modelOrder.getBestSellerProducts(categoryId);
+            return bestSellerProducts;
+          } catch (error) {
+              return Boom.badRequest(error);
+          }
+      }
+      
 module.exports = {
     getProducts,
     getProductById,
     createProduct,
-    validateProduct
+    validateProduct,
+    updateProduct,
+    validateUpdateProduct,
+    deleteProduct,
+    getBestSellersProducts
+
 }
 
 
