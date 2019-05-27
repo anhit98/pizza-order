@@ -82,7 +82,7 @@ const getProductsByCate = (pageNo, size, cate, cb) => ProductModel.aggregate([
      
     ],cb);
 
-const getProductsById =  (id, cb) =>  ProductModel.aggregate([
+const getProductsById =  (id) =>  ProductModel.aggregate([
   {
     $match: {_id: mongoose.Types.ObjectId(id)}
   },
@@ -111,7 +111,7 @@ const getProductsById =  (id, cb) =>  ProductModel.aggregate([
   }
 }
   
- ],cb);
+ ]);
  const checkIfProductExist = (id) => ProductModel.findById({_id: mongoose.Types.ObjectId(id)});
 const countProduct = (cate) => ProductModel.find(cate).countDocuments();
 const createProduct =  (product) =>  ProductModel.create(product);

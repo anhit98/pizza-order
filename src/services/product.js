@@ -40,7 +40,7 @@ const createProduct = async function (req, reply) {
 const updateProduct = async function (req, reply) {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) throw Boom.badRequest("invalid id format!");
   try {
-      const updatedProduct = await updateProduct(req.params.id, req.payload);
+      const updatedProduct = await modelProduct.updateProduct(req.params.id, req.payload);
       return updatedProduct;
   } catch (error) {
       return Boom.badRequest(err);
