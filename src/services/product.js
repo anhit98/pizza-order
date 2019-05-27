@@ -61,8 +61,8 @@ var cate = {}
         throw Boom.badRequest("Invalid page number, should start with 1");
   }
           try {
-            const totalCount = await countProduct(cate);
-            const products = await getProductsByCate(pageNo, size, cate);
+            const totalCount = await modelProduct.countProduct(cate);
+            const products = await modelProduct.getProductsByCate(pageNo, size, cate);
             const result = [{products: products }, {pages: Math.ceil(totalCount / size)}];
             return result;
           } catch (error) {
