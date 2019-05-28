@@ -13,10 +13,10 @@ const validateCategory = {
   name: Joi.string().max(100).optional(),
   image: Joi.string().max(400).optional()
  }
- 
+
 const createCategory = async function (req, reply) {
   try {
-    const category = model.createCategory(req.payload);
+    const category = await model.createCategory(req.payload);
     return category;
   } catch (error) {
     return Boom.badRequest(error);
