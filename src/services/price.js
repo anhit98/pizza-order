@@ -35,7 +35,7 @@ try {
   const price = await model.createPrice(req.payload);
   return price;
 } catch (error) {
-  Boom.badRequest(error);
+  return Boom.badRequest(error);
 }
 
 }
@@ -47,7 +47,7 @@ const updatePrice = async function (req, reply) {
     const price  =await model.updatePrice(req.params.id, req.payload);
     return price;
   } catch (error) {
-    Boom.badRequest(error);
+    return Boom.badRequest(error);
   }
 
 };
@@ -61,7 +61,7 @@ const getPrice = async function (req, reply) {
     const price = await model.getPrice(productId);
     return price;
   } catch (error) {
-    Boom.badRequest(error);
+    return Boom.badRequest(error);
   }
 }
 
@@ -70,7 +70,7 @@ if(!mongoose.Types.ObjectId.isValid(req.params.id)) throw Boom.badRequest("inval
 try {
     const price = await model.deletePrice(req.params.id);
     if(empty(price)|| price==null) {
-      reject(Boom.badRequest("Price id doesn't exist"));
+      return Boom.badRequest("Price id doesn't exist");
     } else {
       return price;
     }
