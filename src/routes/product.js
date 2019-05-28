@@ -98,7 +98,7 @@ module.exports =[
           handler: service.getBestSellersProducts,
           validate: {
             query: {
-              categoryId: Joi.string().required()
+              categoryId: Joi.string().optional()
           }
         }
         }

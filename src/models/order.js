@@ -47,7 +47,7 @@ const orderSchema = new Schema({
      status: {
       type: String,
       required: [true, 'status is required'],
-      enum : ['submitted','processing','completed','cancelled'],
+      enum : ['submitted', "processed", "delevered",'cancelled'],
     },
     
 });
@@ -151,7 +151,7 @@ const getOrders = (customer) => OrderModel.aggregate([
         }
       },      
       {
-        $match: {"product.product.categoryId": cate}
+        $match: cate
       },
 
     

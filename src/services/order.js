@@ -8,7 +8,7 @@ var mongoose = require('mongoose');
 var model = require('../models/order.js');
 var publicKEY  = fs.readFileSync('public.key', 'utf8');
 const validateOrder = {
-  status: Joi.string().valid(["submitted", "processing", "completed", "cancelled"]).required(),
+  status: Joi.string().valid(["submitted", "processed", "delevered", "cancelled"]).required(),
   shippingAddress: Joi.string().optional(),
   products: Joi.array().required().items(Joi.object({
     productId: Joi.string().required(),

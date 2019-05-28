@@ -117,7 +117,13 @@ var cate = {}
     };
 
     const getBestSellersProducts = async function (req, reply) {
-          const categoryId =  mongoose.Types.ObjectId(req.query.categoryId);
+          var categoryId = {}
+          if(req.query.categoryId){
+            categoryId = {
+               "product.product.categoryId" : mongoose.Types.ObjectId(req.query.categoryId)
+            }
+            
+          }
           try {
             const bestSellerProducts = modelOrder.getBestSellerProducts(categoryId);
             return bestSellerProducts;

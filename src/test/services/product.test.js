@@ -4,39 +4,39 @@ const create = require('../../../src/services/product.js').createProduct;
 jest.mock('../../../src/models/product.js', () => ({
     createProduct: (data) => Promise.resolve({
         "_id": '5c6d066ec13e6e002cd89a86',
-        "name": "string",
+        "name": "seafood",
         "image": [
-          "string"
+          "pizza.jpg"
         ],
-        "categoryId": "string",
-        "ingredients": "string",
-        "description": "string",
+        "categoryId": "5c6d066dc33e6e002cd89a86",
+        "ingredients": "shrimp, lettuce",
+        "description": "nothing",
         "styles": [
-          "string"
+          "5c6d066dc33e6e002cd89a86"
         ],
         "toppings": [
-          "string"
+          "5c6d066dc33e6e002cd89a86"
         ]
   })
 }));
 
-describe('User Route - Test the create user service', () => {
+describe('Product Route - Test the create product service', () => {
   it('Should create', async () => {
     // jest.setTimeout(30000);
     const res = await create({
       payload: {
-        "name": "string",
+        "name": "5c6d066ec13e6e002cd89a86",
         "image": [
           "string"
         ],
-        "categoryId": "string",
-        "ingredients": "string",
-        "description": "string",
+        "categoryId": "5c6d066ec13e6e002cd89a86",
+        "ingredients": "shrimp, lettuce",
+        "description": "nothing",
         "styles": [
-          "string"
+          "5c6d066dc33e6e002cd89a86"
         ],
         "toppings": [
-          "string"
+          "5c6d066dc33e6e002cd89a86"
         ]
       }
     });
