@@ -173,18 +173,38 @@ const getOrders = (customer) => OrderModel.aggregate([
           products: { $push: "$product" }          
         }},
   
-        { $project: { 
-          "products.product.toppings": false,
-          "products.product.styles": false,
-           
-      }} ,
+
       { $unwind: "$products"},
+      { $lookup:
+        {
+          from: 'toppings',
+          localField: 'products.product.toppings',
+          foreignField: '_id',
+          as: 'products.product.toppings'
+        }
+      }  ,
+      { $lookup:
+        {
+          from: 'styles',
+          localField: 'products.product.styles',
+          foreignField: '_id',
+          as: 'products.product.styles'
+        }
+      }  ,
+      { $lookup:
+        {
+          from: 'prices',
+          localField: 'products.product._id',
+          foreignField: 'productId',
+          as: 'products.product.prices'
+        }
+      }  ,
       { $group: {
         _id: "$products.product",
         totalSales : { $sum : "$products.total" }
       }},
       { $sort : { totalSales : -1 } },
-      { $limit : 5 }       
+      { $limit : 5 }
         ]);
 
   const updateOrderStatus = (id, data) => OrderModel.findByIdAndUpdate({_id:id}, data, {new : true});
