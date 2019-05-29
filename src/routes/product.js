@@ -43,12 +43,15 @@ module.exports =[
     path: '/products',
     config: {
       tags: ['api'],
-      auth: false,      
       cors: {
         origin: ['*']
     },
       handler: service.createProduct,
       validate: {
+        headers:
+        Joi.object().keys({
+          'authorization': Joi.string().required().description('Authorization header containing the JSON Web Token')
+        }).options({ allowUnknown: true }),
         payload: service.validateProduct
         },
     }
@@ -58,13 +61,16 @@ module.exports =[
     path: `/products/{id}`,
     config: {
       tags: ['api'],
-      auth: false,      
       handler: service.updateProduct,
       cors: {
         origin: ['*']
     },
       validate: {
         payload: service.validateUpdateProduct,
+        headers:
+        Joi.object().keys({
+          'authorization': Joi.string().required().description('Authorization header containing the JSON Web Token')
+        }).options({ allowUnknown: true }),
         params: {
             id: Joi.string().min(3)
         }
@@ -75,12 +81,15 @@ module.exports =[
       path: `/products/{id}`,
       config: {
         tags: ['api'],
-        auth: false,        
         handler: service.deleteProduct,
         cors: {
           origin: ['*']
       },
       validate: {
+        headers:
+        Joi.object().keys({
+          'authorization': Joi.string().required().description('Authorization header containing the JSON Web Token')
+        }).options({ allowUnknown: true }),
         params: {
             id: Joi.string().min(3)
         }

@@ -8,6 +8,7 @@ module.exports =[ {
     path: '/orders/create',
     config: {
       tags: ['api'],
+      auth: false,
       handler: service.createOrder,
         cors: {
           origin: ['*']
@@ -45,7 +46,6 @@ module.exports =[ {
     config: {
       tags: ['api'],
       auth: false,              
-      // auth: ,
       handler: service.updateOrderStatus,
         cors: {
           origin: ['*']

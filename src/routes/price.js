@@ -7,9 +7,12 @@ module.exports =[ {
     path: '/prices',
     config: {
       tags: ['api'],
-      auth: false,      
       handler: service.createPrice,
       validate: {
+        headers:
+        Joi.object().keys({
+          'authorization': Joi.string().required().description('Authorization header containing the JSON Web Token')
+        }).options({ allowUnknown: true }),
         payload: service.validatePrice
         },
         cors: {
@@ -22,12 +25,15 @@ module.exports =[ {
   path: `/prices/{id}`,
   config: {
     tags: ['api'],
-    auth: false,    
     handler: service.updatePrice,
     cors: {
       origin: ['*']
   },
     validate: {
+      headers:
+      Joi.object().keys({
+        'authorization': Joi.string().required().description('Authorization header containing the JSON Web Token')
+      }).options({ allowUnknown: true }),
       payload: service.validateUpdatePrice,
       params: {
           id: Joi.string().min(3)
@@ -56,12 +62,15 @@ module.exports =[ {
       path: `/prices/{id}`,
       config: {
         tags: ['api'],
-        auth: false,
         handler: service.deletePrice,
         cors: {
           origin: ['*']
       },
       validate: {
+        headers:
+        Joi.object().keys({
+          'authorization': Joi.string().required().description('Authorization header containing the JSON Web Token')
+        }).options({ allowUnknown: true }),
         params: {
             id: Joi.string().min(3).required()
         }
