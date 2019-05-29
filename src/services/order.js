@@ -47,11 +47,10 @@ const createOrder = async function (req, reply) {
 }
 
 const getOrders = async function (req, reply) {
-  var customer = {}
-    if(req.query.customerId){
-      customer = {
-        customerId:  mongoose.Types.ObjectId(req.query.customerId)
-      }
+  const token = req.headers.authorization;
+  const userId = await verifyToken(token);
+      const customer = {
+        customerId:  mongoose.Types.ObjectId(userId)
     }  
     try {
       const orders = await model.getOrders(customer);

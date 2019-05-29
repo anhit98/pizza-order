@@ -32,9 +32,10 @@ module.exports =[ {
           origin: ['*']
       },
       validate: {
-        query: {
-          customerId: Joi.string().optional()
-      }
+        headers:
+        Joi.object().keys({
+          'authorization': Joi.string().required().description('Authorization header containing the JSON Web Token')
+        }).options({ allowUnknown: true })
     }
     }
   },
