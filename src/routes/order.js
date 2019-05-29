@@ -5,9 +5,9 @@ const Joi = require('joi');
 
 module.exports =[ {
     method: 'POST',
-    path: '/orders/create',
+    path: '/orders',
     config: {
-      tags: ['api'],
+      tags: ['api', 'user'],
       auth: false,
       handler: service.createOrder,
         cors: {
@@ -26,7 +26,7 @@ module.exports =[ {
     method: 'GET',
     path: '/orders',
     config: {
-      tags: ['api'],
+      tags: ['api','user'],
       auth: false,
       handler: service.getOrders,
         cors: {
@@ -44,7 +44,7 @@ module.exports =[ {
     method: 'PUT',
     path: '/orders/{id}',
     config: {
-      tags: ['api'],
+      tags: ['api','admin'],
       auth: false,              
       handler: service.updateOrderStatus,
         cors: {

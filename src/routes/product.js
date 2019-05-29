@@ -6,7 +6,7 @@ module.exports =[
     method: 'GET',
     path: '/products',
     config: {
-      tags: ['api'],
+      tags: ['api', 'user'],
       auth: false,      
       cors: {
         origin: ['*']
@@ -25,7 +25,7 @@ module.exports =[
     method: 'GET',
     path: '/products/{id}',
     config: {
-      tags: ['api'],
+      tags: ['api', 'user'],
       auth: false,      
       cors: {
         origin: ['*']
@@ -42,7 +42,7 @@ module.exports =[
     method: 'POST',
     path: '/products',
     config: {
-      tags: ['api'],
+      tags: ['api', 'admin'],
       cors: {
         origin: ['*']
     },
@@ -60,7 +60,7 @@ module.exports =[
     method: 'PUT',
     path: `/products/{id}`,
     config: {
-      tags: ['api'],
+      tags: ['api', 'admin'],
       handler: service.updateProduct,
       cors: {
         origin: ['*']
@@ -80,7 +80,7 @@ module.exports =[
       method: 'DELETE',
       path: `/products/{id}`,
       config: {
-        tags: ['api'],
+        tags: ['api', 'admin'],
         handler: service.deleteProduct,
         cors: {
           origin: ['*']
@@ -99,7 +99,7 @@ module.exports =[
         method: 'GET',
         path: '/bestsellers',
         config: {
-          tags: ['api'],
+          tags: ['api', 'admin'],
           auth: false,          
           cors: {
             origin: ['*']

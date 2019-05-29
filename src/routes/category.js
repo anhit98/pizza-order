@@ -6,7 +6,7 @@ module.exports =[ {
     method: 'POST',
     path: '/categories',
     config: {
-      tags: ['api'],
+      tags: ['api', 'user'],
       handler: service.createCategory,
       validate: {        
         headers:
@@ -24,7 +24,7 @@ module.exports =[ {
   method: 'PUT',
   path: `/categories/{id}`,
   config: {
-    tags: ['api'],
+    tags: ['api', 'admin'],
     auth: false,    
     handler: service.updateCategory,
     cors: {
@@ -45,7 +45,7 @@ module.exports =[ {
     method: 'GET',
     path: `/categories`,
     config: {
-      tags: ['api'],
+      tags: ['api', 'user'],
       auth: false,      
       handler: service.getAllCategories,
       cors: {
@@ -57,7 +57,7 @@ module.exports =[ {
       method: 'DELETE',
       path: `/categories/{id}`,
       config: {
-        tags: ['api'],
+        tags: ['api', 'admin'],
       auth: false,        
         handler: service.deleteCategory,
         cors: {
