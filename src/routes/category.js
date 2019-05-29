@@ -7,9 +7,12 @@ module.exports =[ {
     path: '/categories',
     config: {
       tags: ['api'],
-      auth: false,
       handler: service.createCategory,
-      validate: {
+      validate: {        
+        headers:
+        Joi.object().keys({
+          'authorization': Joi.string().required().description('Authorization header containing the JSON Web Token')
+        }).options({ allowUnknown: true }),
         payload: service.validateCategory
         },
         cors: {

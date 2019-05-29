@@ -17,7 +17,10 @@ const register = async server => {
     validate,
   });
 
-    server.auth.default('jwt'); // JWT auth is required for all routes
+  server.auth.default({
+    strategy: "jwt",
+    scope: "admin"
+  });  // JWT auth is required for all routes
 };
 
 module.exports = {
