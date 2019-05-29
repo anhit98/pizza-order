@@ -99,7 +99,7 @@ module.exports =[
         method: 'GET',
         path: '/bestsellers',
         config: {
-          tags: ['api', 'admin'],
+          tags: ['api', 'user'],
           auth: false,          
           cors: {
             origin: ['*']

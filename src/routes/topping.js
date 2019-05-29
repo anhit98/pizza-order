@@ -6,7 +6,7 @@ module.exports =[ {
     method: 'POST',
     path: '/toppings',
     config: {
-      tags: ['api'],
+      tags: ['api','admin'],
       handler: service.createTopping,
       validate: {
         headers:
@@ -24,7 +24,7 @@ module.exports =[ {
   method: 'PUT',
   path: `/toppings/{id}`,
   config: {
-    tags: ['api'],
+    tags: ['api','admin'],
     handler: service.updateTopping,
     cors: {
       origin: ['*']
@@ -44,7 +44,7 @@ module.exports =[ {
     method: 'GET',
     path: `/toppings`,
     config: {
-      tags: ['api'],
+      tags: ['api','user'],
       auth: false,      
       handler: service.getAllToppings,
       cors: {
@@ -56,7 +56,7 @@ module.exports =[ {
       method: 'DELETE',
       path: `/toppings/{id}`,
       config: {
-        tags: ['api'],
+        tags: ['api','admin'],
         handler: service.deleteTopping,
         cors: {
           origin: ['*']

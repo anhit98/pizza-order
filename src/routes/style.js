@@ -6,7 +6,7 @@ module.exports =[ {
     method: 'POST',
     path: '/styles',
     config: {
-      tags: ['api'],
+      tags: ['api','admin'],
       handler: service.createStyle,
       validate: {
         headers:
@@ -24,7 +24,7 @@ module.exports =[ {
   method: 'PUT',
   path: `/styles/{id}`,
   config: {
-    tags: ['api'],
+    tags: ['api','admin'],
     handler: service.updateStyle,
     cors: {
       origin: ['*']
@@ -44,7 +44,7 @@ module.exports =[ {
     method: 'GET',
     path: `/styles`,
     config: {
-      tags: ['api'],
+      tags: ['api','admin'],
       auth: false,      
       handler: service.getAllStyles,
       cors: {
@@ -56,7 +56,7 @@ module.exports =[ {
   method: 'DELETE',
   path: `/styles/{id}`,
   config: {
-    tags: ['api'],
+    tags: ['api','admin'],
     handler: service.deleteStyle,
     cors: {
       origin: ['*']

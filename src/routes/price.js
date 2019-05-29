@@ -6,7 +6,7 @@ module.exports =[ {
     method: 'POST',
     path: '/prices',
     config: {
-      tags: ['api'],
+      tags: ['api', 'admin'],
       handler: service.createPrice,
       validate: {
         headers:
@@ -24,7 +24,7 @@ module.exports =[ {
   method: 'PUT',
   path: `/prices/{id}`,
   config: {
-    tags: ['api'],
+    tags: ['api','admin'],
     handler: service.updatePrice,
     cors: {
       origin: ['*']
@@ -44,7 +44,7 @@ module.exports =[ {
     method: 'GET',
     path: `/prices`,
     config: {
-      tags: ['api'],
+      tags: ['api','user'],
       auth: false,      
       handler: service.getPrice,
       cors: {
@@ -61,7 +61,7 @@ module.exports =[ {
       method: 'DELETE',
       path: `/prices/{id}`,
       config: {
-        tags: ['api'],
+        tags: ['api','admin'],
         handler: service.deletePrice,
         cors: {
           origin: ['*']

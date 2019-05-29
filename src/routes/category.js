@@ -6,7 +6,7 @@ module.exports =[ {
     method: 'POST',
     path: '/categories',
     config: {
-      tags: ['api', 'user'],
+      tags: ['api', 'admin'],
       handler: service.createCategory,
       validate: {        
         headers:
