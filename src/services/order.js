@@ -15,7 +15,7 @@ const validateOrder = {
     styleId: Joi.string().optional(),
     topping: Joi.array().optional(),
     priceId: Joi.string().required(),
-    quantity: Joi.number().required(),
+    quantity: Joi.number().positive().required(),
     description: Joi.string().optional()
   }).required())
 }
