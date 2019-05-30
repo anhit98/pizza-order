@@ -63,7 +63,7 @@ var cate = {}
           try {
             const totalCount = await modelProduct.countProduct(cate);
             const products = await modelProduct.getProductsByCate(pageNo, size, cate);
-            const result = [{products: products }, {pages: Math.ceil(totalCount / size)}];
+            const result = [{products: products }, {pages: Math.ceil(totalCount / size)},{totalCount:totalCount}];
             return result;
           } catch (error) {
             return Boom.badRequest(error);
