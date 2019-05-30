@@ -62,6 +62,9 @@ const getOrders = (customer) => OrderModel.aggregate([
   {
     $match: customer,
   },
+  {
+    $match: id
+  },
   { $unwind: {
     path: "$products",
     preserveNullAndEmptyArrays: true
