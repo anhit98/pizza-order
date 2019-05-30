@@ -28,3 +28,5 @@ dotenv - security
 Unit Tests - jest
 
 
+https://stackoverflow.com/questions/35129977/how-to-install-latest-version-of-openssl-mac-os-x-el-capitan
+https://stackoverflow.com/questions/38670295/homebrew-refusing-to-link-openssl
