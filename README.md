@@ -14,11 +14,17 @@ npm run start (start the application)
 ## Features
 
 Applying: 
+```
 Hapijs - REST Api
+```
 Swagger - documentation
+```
 Jwt - authentication
+```
 Mongoose - MongoDb
+```
 dotenv - security
+```
 Unit Tests - jest
 
 
