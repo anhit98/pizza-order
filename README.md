@@ -8,7 +8,6 @@ NodeJS + HapiJS(17) to provide API service for a Pizza order application
 npm install
 ```
 ```
-```bash
 npm run start (start the application)
 ```
 
