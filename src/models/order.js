@@ -60,10 +60,7 @@ const createOrder =  (order) =>  OrderModel.create(order);
 
 const getOrders = (customer) => OrderModel.aggregate([
   {
-    $match: customer,
-  },
-  {
-    $match: id
+    $match: customer
   },
   { $unwind: {
     path: "$products",
@@ -137,6 +134,85 @@ const getOrders = (customer) => OrderModel.aggregate([
   }} 
 
     ]);
+    const getOrdersById = (customer, id) => OrderModel.aggregate([
+      {
+        $match: customer
+      },
+      {
+        $match: id
+      },
+      { $unwind: {
+        path: "$products",
+        preserveNullAndEmptyArrays: true
+    } },
+      
+      { $lookup:
+        {
+          from: 'users',
+          localField: 'customerId',
+          foreignField: '_id',
+          as: 'user'
+        }
+      },
+      { $lookup:
+        {
+          from: 'products',
+          localField: 'products.productId',
+          foreignField: '_id',
+          as: 'product.product'
+        }
+      },
+    
+      { $lookup:
+        {
+          from: 'prices',
+          localField: 'products.priceId',
+          foreignField: '_id',
+          as: 'product.price'
+        }
+      },
+    
+         { $lookup:
+          {
+            from: 'styles',
+            localField: 'products.styleId',
+            foreignField: '_id',
+            as: 'product.style'
+          }
+        },
+        
+        { $lookup:
+          {
+            from: 'toppings',
+            localField: 'products.topping',
+            foreignField: '_id',
+            as: 'product.toppings'
+          }
+        },
+        { $project: { 
+          "product.product": { "$arrayElemAt": [ "$product.product", 0 ] } ,
+          "product.style": { "$arrayElemAt": [ "$product.style", 0 ] } ,
+          "product.price": { "$arrayElemAt": [ "$product.price", 0 ] } ,
+          "user": { "$arrayElemAt": [ "$user", 0 ] } ,
+          "product.quantity": "$products.quantity",
+          "product.toppings": "$product.toppings",
+          "status":"$status"
+    
+      }} ,
+        { $group: {
+          _id: "$_id",
+          customer: { "$first": "$user" },
+          products: { $push: "$product" },
+          status: {"$first": "$status" }
+          
+        }},
+        { $project: { 
+          "products.product.toppings": false,
+          "products.product.styles": false
+    
+      }} 
+    
+        ]);
 
   const getBestSellerProducts = (cate) => OrderModel.aggregate([
 
@@ -216,5 +292,6 @@ module.exports = {
   createOrder,
   getOrders,
   updateOrderStatus,
-  getBestSellerProducts
+  getBestSellerProducts,
+  getOrdersById
 }
