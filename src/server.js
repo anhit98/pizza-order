@@ -15,7 +15,7 @@ const server = Hapi.server({ port: port, host: process.env.HOST });
 const init = async () => {
     const swaggerOptions = {
             info: {
-                    title: 'Test API Documentation',
+                    title: 'Pizza Order API Documentation',
                     version: Pack.version,
                 },
             };
@@ -32,7 +32,7 @@ const init = async () => {
         await server.start(); 
         require("./models/topping");
         require("./models/style");
-        // require("./services/consumer");
+        require("./services/consumer");
         server.route(require('./../src/routes/category'));
         server.route(require('./../src/routes/product'));
         server.route(require('./../src/routes/order'));

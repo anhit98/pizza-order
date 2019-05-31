@@ -18,16 +18,15 @@ const consumer = new Kafka.KafkaConsumer(kafkaConf, {
 });
 // console.log("fgrdfgt");
 // Flowing mode
-consumer.connect();
+
  
 consumer.on("ready", function(arg) {
-  console.log(`Consumer ${arg.name} ready`);
+  
   consumer.subscribe(topics);
   consumer.consume();
+  console.log(`Consumer ${arg.name} ready`);
 });
-consumer.on('error', function (err) {
-  console.log("Kafka Error: Consumer - " + err);
-});
+
 consumer.on('data', function(data) {
     console.log(
       "gdfgb"
@@ -36,6 +35,10 @@ consumer.on('data', function(data) {
     var temp = JSON.parse(data.value.toString());
     console.log(temp, data.value.toString());
   });
+  consumer.on('error', function (err) {
+    console.log("Kafka Error: Consumer - " + err);
+  });
   consumer.on('event.log', function(log) {
     console.log(log);
   });
+  consumer.connect();
