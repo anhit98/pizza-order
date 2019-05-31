@@ -33,11 +33,23 @@ const verifyToken = async function (token) {
 const createOrder = async function (req, reply) {
   const token = req.headers.authorization;
   const userId = await verifyToken(token);
-  const data = {
-    customerId: userId,
-    products: req.payload.products,
-    status: req.payload.status
-  };
+  let data = {}
+  if(req.payload.shippingAddress){
+    data = {
+      customerId: userId,
+      products: req.payload.products,
+      status: req.payload.status,
+      shippingAddress: req.payload.shippingAddress
+    };
+  }  else{
+    data = {
+      customerId: userId,
+      products: req.payload.products,
+      status: req.payload.status
+    };
+  }
+
+
   try {
     const order = await model.createOrder(data);
     return order;
