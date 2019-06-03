@@ -51,10 +51,6 @@ module.exports =[ {
           origin: ['*']
       },
       validate: {
-        headers:
-        Joi.object().keys({
-          'authorization': Joi.string().required().description('Authorization header containing the JSON Web Token')
-        }).options({ allowUnknown: true }),
         params: {
           id: Joi.string().required()
       }
