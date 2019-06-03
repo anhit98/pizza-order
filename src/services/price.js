@@ -28,7 +28,7 @@ const checkIfProductIdExist = async function (id) {
   }
   }
 const createPrice = async function (req, reply) {
-if(!mongoose.Types.ObjectId.isValid(req.params.id)) throw Boom.badRequest("invalid id format!");    
+if(!mongoose.Types.ObjectId.isValid(req.payload.productId)) throw Boom.badRequest("invalid id format!");    
 const checkproId = await checkIfProductIdExist(req.payload.productId);
 if(empty(checkproId) )  throw Boom.badRequest("Product id doesn't exist");
 try {
