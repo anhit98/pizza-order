@@ -22,7 +22,8 @@ const orderSchema = new Schema({
         },
         styleId: {
           type: Schema.Types.ObjectId,
-          ref: "Style"
+          ref: "Style",
+          required: false
         },
         priceId: {
           type: Schema.Types.ObjectId,
@@ -32,7 +33,8 @@ const orderSchema = new Schema({
         {
           type: [{            
             type: Schema.Types.ObjectId,
-            ref: "Topping"
+            ref: "Topping",
+            required: false
            
         }],
         default: undefined

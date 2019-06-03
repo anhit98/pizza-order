@@ -33,7 +33,7 @@ consumer
       consumer.consume(1);
     }, 1000);
   })
-  .on('data', function(data) {
+  consumer.consume( function(data) {
     console.log('Message found!  Contents below.');
     console.log(data.value.toString());
   });
