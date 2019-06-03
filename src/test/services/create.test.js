@@ -1,5 +1,4 @@
 
-
 const create = require('../../../src/services/product.js').createProduct;
 jest.mock('../../../src/models/product.js', () => ({
     createProduct: (data) => Promise.resolve({
