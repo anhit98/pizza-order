@@ -26,7 +26,6 @@ const verifyToken = async function (token) {
   const decoded = await jwt.verify(token, publicKEY, { algorithms: ['RS256'] });
   return decoded.id;
 
-
 }
 
 const createOrder = async function (req, reply) {
@@ -65,8 +64,13 @@ try {
 }
 
 const getOrders = async function (req, reply) {
-  const token = req.headers.authorization;
-  const userId = await verifyToken(token);
+      let userId; 
+      const token = req.headers.authorization;
+    try {
+      userId = await verifyToken(token);
+    } catch (error) {
+      return Boom.badRequest("Token expired!")
+    }
       const customer = {
         customerId:  mongoose.Types.ObjectId(userId)
     }  

@@ -282,8 +282,8 @@ const getOrders = (customer) => OrderModel.aggregate([
         _id: "$products.product",
         totalSales : { $sum : "$products.total" }
       }},
-      { $sort : { totalSales : -1 } },
-      { $limit : 5 }
+      { $sort : { totalSales : -1 } }
+      // { $limit : 5 }
         ]);
 
   const updateOrderStatus = (id, data) => OrderModel.findByIdAndUpdate({_id:id}, data, {new : true});
