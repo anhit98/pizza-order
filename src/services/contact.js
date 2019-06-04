@@ -1,6 +1,5 @@
 const Joi = require('joi');
 const Boom = require('boom');
-
 const nodemailer = require('nodemailer');
 const validateContact = {
     name: Joi.string().max(400).required(),
@@ -69,9 +68,7 @@ const validateContact = {
                           <td align="center" valign="top">
                               <div>
                                   <span class="m_147690310709940969poweredBy" style="display:block">
-                                      <a href="" style="color:#e5293e" target="_blank">
-                                          <img src="logo" alt="logo" title="Mailchimp Email Marketing" class="CToWUd" />
-                                      </a>
+                                      <a href="https://imgur.com/ttK3J37" tyle="color:#e5293e" target="_blank"><img src="https://i.imgur.com/ttK3J37.png" title="source: imgur.com" /></a>
                                   </span>
                               </div>
                           </td>

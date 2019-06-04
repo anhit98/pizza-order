@@ -31,12 +31,13 @@ const verifyToken = async function (token) {
 
 const createOrder = async function (req, reply) {
   let userId; 
+  const token = req.headers.authorization;
 try {
   userId = await verifyToken(token);
 } catch (error) {
   return Boom.badRequest("Token expired!")
 }
-  const token = req.headers.authorization;
+
   
   let data = {}
   if(req.payload.shippingAddress){
