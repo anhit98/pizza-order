@@ -12,7 +12,9 @@ const validateContact = {
    const sendMail = async function (req, reply) {
 
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true, 
       auth: {
           user: 'anhngocdo13061998@gmail.com',
           pass: 'dothingocanh'

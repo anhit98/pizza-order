@@ -62,7 +62,6 @@ const getOrders = async function (req, reply) {
   const token = req.headers.authorization;
   const userId = await verifyToken(token);
       const customer = {
-
         customerId:  mongoose.Types.ObjectId(userId)
     }  
     try {
@@ -85,14 +84,20 @@ const getOrders = async function (req, reply) {
       }
     }
 
-  const updateOrderStatus = async function (data) {
-    if(!mongoose.Types.ObjectId.isValid(data._id)) throw Boom.badRequest("invalid id format!");
-    try {
-      const order = await model.updateOrderStatus(data._id, data.status);
-      return order;
-    } catch (error) {
-      return Boom.badRequest(error)      
-    }
+  const updateOrderStatus = async function (result) {
+    // const data = result.toJSON();
+    // console.log(data, data._id)
+    // if(!mongoose.Types.ObjectId.isValid(data._id)) throw Boom.badRequest("invalid id format!");
+    // const status = {
+    //   status: data.status
+    // }
+    // try {
+     
+    //   const order = await model.updateOrderStatus(data._id, status);
+    //   return order;
+    // } catch (error) {
+    //   return Boom.badRequest(error)      
+    // }
   };
   
 module.exports = {

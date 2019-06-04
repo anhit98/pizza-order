@@ -36,6 +36,6 @@ consumer
   consumer.on('data', async function(data) {
     console.log('Message found!  Contents below.');
     const updateOrder = await orderService.updateOrderStatus(data);
-
+    return updateOrder;
     console.log(data.value.toString());
   });
