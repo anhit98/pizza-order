@@ -32,13 +32,14 @@ const init = async () => {
         await server.start(); 
         require("./models/topping");
         require("./models/style");
-        require("./services/consumer");
+        // require("./services/consumer");
         server.route(require('./../src/routes/category'));
         server.route(require('./../src/routes/product'));
         server.route(require('./../src/routes/order'));
         server.route(require('./../src/routes/style'));
         server.route(require('./../src/routes/topping'));
         server.route(require('./../src/routes/price'));
+        server.route(require('./../src/routes/contact'));
 }; 
 
 init().catch(err => {
