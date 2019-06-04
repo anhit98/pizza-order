@@ -16,8 +16,8 @@ const validateContact = {
       port: 465,
       secure: true, 
       auth: {
-          user: 'anhngocdo13061998@gmail.com',
-          pass: 'dothingocanh'
+          user: 'anh.dothingoc@pycogroup.com',
+          pass: 'Hoang@12057'
       }
     });
     
