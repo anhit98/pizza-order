@@ -22,17 +22,22 @@ const validateOrder = {
 const verifyToken = async function (token) {
  if (!token)
  throw Boom.badRequest("No token provided!")
- try {
+
   const decoded = await jwt.verify(token, publicKEY, { algorithms: ['RS256'] });
   return decoded.id;
- } catch (error) {
-   return Boom.badRequest(error);
- }
+
+
 }
 
 const createOrder = async function (req, reply) {
+  let userId; 
+try {
+  userId = await verifyToken(token);
+} catch (error) {
+  return Boom.badRequest("Token expired!")
+}
   const token = req.headers.authorization;
-  const userId = await verifyToken(token);
+  
   let data = {}
   if(req.payload.shippingAddress){
     data = {
