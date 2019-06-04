@@ -27,7 +27,6 @@ consumer
     // Subscribe to the librdtesting-01 topic
     // This makes subsequent consumes read from that topic.
     consumer.subscribe([topics]);
-    console.log("grdf");
     // Read one message every 1000 milliseconds
     setInterval(function() {
       consumer.consume(1);
@@ -40,5 +39,4 @@ consumer
 
     const updateOrder = await orderService.updateOrderStatus(objData);
     return updateOrder;
-    console.log(data.value.toString());
   });
