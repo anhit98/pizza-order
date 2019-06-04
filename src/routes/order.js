@@ -56,25 +56,5 @@ module.exports =[ {
       }
     }
     }
-  },
-  {
-    method: 'PUT',
-    path: '/orders/{id}',
-    config: {
-      tags: ['api','admin'],
-      auth: false,              
-      handler: service.updateOrderStatus,
-        cors: {
-          origin: ['*']
-      },
-      validate: {
-        payload: {
-          status: Joi.string().valid(["submitted", "processing", "completed", "cancelled"]).required()
-      },
-        params: {
-          id: Joi.string().required()
-      }
-    }
-    }
   }
 ]

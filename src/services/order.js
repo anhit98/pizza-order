@@ -73,27 +73,22 @@ const getOrders = async function (req, reply) {
     }
   }
   const getOrdersById = async function (req, reply) {
-    const token = req.headers.authorization;
-    const userId = await verifyToken(token);
-        const customer = {
-  
-          customerId:  mongoose.Types.ObjectId(userId)
-      }  
+
       const id = {
         _id: mongoose.Types.ObjectId(req.params.id)
       }
       try {
-        const orders = await model.getOrdersById(customer, id);
+        const orders = await model.getOrdersById(id);
         return orders;
       } catch (error) {
         return Boom.badRequest(error);
       }
     }
 
-  const updateOrderStatus = async function (req, reply) {
-    if(!mongoose.Types.ObjectId.isValid(req.params.id)) throw Boom.badRequest("invalid id format!");
+  const updateOrderStatus = async function (data) {
+    if(!mongoose.Types.ObjectId.isValid(data._id)) throw Boom.badRequest("invalid id format!");
     try {
-      const order = await model.updateOrderStatus(req.params.id, req.payload);
+      const order = await model.updateOrderStatus(data._id, data.status);
       return order;
     } catch (error) {
       return Boom.badRequest(error)      

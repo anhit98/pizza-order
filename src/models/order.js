@@ -136,10 +136,8 @@ const getOrders = (customer) => OrderModel.aggregate([
   }} 
 
     ]);
-    const getOrdersById = (customer, id) => OrderModel.aggregate([
-      {
-        $match: customer
-      },
+    const getOrdersById = (id) => OrderModel.aggregate([
+
       {
         $match: id
       },
