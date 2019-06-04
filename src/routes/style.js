@@ -44,7 +44,7 @@ module.exports =[ {
     method: 'GET',
     path: `/styles`,
     config: {
-      tags: ['api','admin'],
+      tags: ['api','user'],
       auth: false,      
       handler: service.getAllStyles,
       cors: {
