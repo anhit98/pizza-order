@@ -6,6 +6,7 @@ const validateContact = {
     name: Joi.string().max(400).required(),
     email: Joi.string().required(),
     message:  Joi.string().required(),
+    phone:  Joi.string().required()
    }
 
    const sendMail = async function (req, reply) {
@@ -24,8 +25,8 @@ const validateContact = {
   };
 
     const mailOptions = {
-      from: "anh.dothingoc@pycogroup.com",
-      to: 'anh.dothingoc@pycogroup.com',
+      from: "anhngocdo13061998@gmail.com",
+      to: 'pizzaorder.pnv@gmail.com',
       subject: 'Pizza order app - Contact',
       html:  '<p><b>Name: </b>{{name}}</p><p><b>Message: </b>{{message}}</p>'
     };
