@@ -35,7 +35,10 @@ consumer
   })
   consumer.on('data', async function(data) {
     console.log('Message found!  Contents below.');
-    const updateOrder = await orderService.updateOrderStatus(data);
+        const stringData = data.value.toString();
+        const objData = JSON.parse(stringData);
+
+    const updateOrder = await orderService.updateOrderStatus(objData);
     return updateOrder;
     console.log(data.value.toString());
   });
