@@ -83,7 +83,7 @@ const validateContact = {
 
     try {
       const response = await transporter.sendMail(mailOptions);
-      return 'Email sent: ' + response;
+      return 'Email sent: ';
     } catch (error) {
       return Boom.badRequest(error);
     }
