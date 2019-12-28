@@ -19,7 +19,7 @@
     "ejs": "^2.6.1",
     "email-templates": "^5.1.0",
     "fs": "0.0.1-security",
-    "handlebars": "^4.1.2",
+    "handlebars": "^4.3.0",
     "hapi": "^17.8.5",
     "hapi-auth-jwt2": "^8.4.0",
     "hapi-swagger": "^9.4.2",
