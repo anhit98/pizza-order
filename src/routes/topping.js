@@ -2,7 +2,7 @@
 const service = require('../services/topping.js');
 const Joi = require('joi');
 
-module.exports =[ {
+module.exports =[{
     method: 'POST',
     path: '/toppings',
     config: {

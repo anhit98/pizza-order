@@ -1,6 +1,5 @@
 'use strict';
 const Joi = require('joi');
-const bcrypt = require('bcrypt');
 const Boom = require('boom');
 var model = require('../models/style.js');
 

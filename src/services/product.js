@@ -1,6 +1,5 @@
 'use strict';
 const Joi = require('joi');
-const bcrypt = require('bcrypt');
 const Boom = require('boom');
 var modelProduct = require('../models/product.js');
 var async = require('async');
@@ -43,7 +42,7 @@ const updateProduct = async function (req, reply) {
       const updatedProduct = await modelProduct.updateProduct(req.params.id, req.payload);
       return updatedProduct;
   } catch (error) {
-      return Boom.badRequest(err);
+      return Boom.badRequest(error);
   }
 };
 
@@ -83,14 +82,13 @@ var cate = {}
 
     }
 
-
     const checkIfPriceDeleted = async function (id) {
       let productId = {productId:  mongoose.Types.ObjectId(id)};
       try {
         const price = await modelPrice.getPrice(productId);
         return price;
       } catch (error) {
-        return Boom.badRequest(err);
+        return Boom.badRequest(error);
       }
     }
 
@@ -112,7 +110,7 @@ var cate = {}
       }
         
       } catch (error) {
-        return Boom.badRequest(err);
+        return Boom.badRequest(error);
       }
     };
 
@@ -125,7 +123,8 @@ var cate = {}
             
           }
           try {
-            const bestSellerProducts = modelOrder.getBestSellerProducts(categoryId);
+            const bestSellerProducts = await modelOrder.getBestSellerProducts(categoryId);
+              console.log(bestSellerProducts, "fdsssssssssssssssss")
             return bestSellerProducts;
           } catch (error) {
               return Boom.badRequest(error);

@@ -1,18 +1,19 @@
 'use strict';
 const Joi = require('joi');
-const bcrypt = require('bcrypt');
 const Boom = require('boom');
 var model = require('../models/topping.js');
-
+const empty = require('is-empty');
 
 const validateTopping = {
   name: Joi.string().max(100).required(),
-  image: Joi.string().max(400).required()
+  image: Joi.string().required()
 }
+
  const validateUpdateTopping = {
   name: Joi.string().max(100).optional(),
-  image: Joi.string().max(400).optional()
- }
+  image: Joi.string().optional()
+}
+
 const createTopping = async function (req, reply) {
   try {
     const topping = await model.createTopping(req.payload);
@@ -21,7 +22,6 @@ const createTopping = async function (req, reply) {
     return Boom.badRequest(error);
   }
 }
-
 
 const updateTopping = async function (req, reply) {
   try {
@@ -42,12 +42,11 @@ const getAllToppings = async function (req, reply) {
 
 }
 
-const deleteTopping = async function (req, reply) {
+const deleteTopping = async function (req, reject) {
   try {
     const topping = await model.deleteTopping(req.params.id);
     if(empty(topping)|| topping==null) {
       reject(Boom.badRequest("Topping id doesn't exist"));
-
     } else {
       return {
         message: "Topping successfully deleted",
@@ -57,11 +56,7 @@ const deleteTopping = async function (req, reply) {
   } catch (error) {
     return Boom.badRequest(error);    
   }
-
 };
-
-
-
 
 module.exports = {
   createTopping,

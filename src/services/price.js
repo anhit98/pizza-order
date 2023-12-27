@@ -1,11 +1,11 @@
 'use strict';
 const Joi = require('joi');
-const bcrypt = require('bcrypt');
 const Boom = require('boom');
 const model = require('../models/price.js');
 const mongoose = require('mongoose');
 const modelProduct = require('../models/product.js');
 const empty = require('is-empty');
+
 const validatePrice = {
   price: Joi.number().required(),
   size: Joi.string().max(100).optional(),
@@ -18,7 +18,8 @@ const validatePrice = {
     size: Joi.string().max(100).optional(),
     description: Joi.string().max(400).optional(),
     productId: Joi.string().max(400).optional()
- }
+}
+
 const checkIfProductIdExist = async function (id) {
   try {
     const product = await modelProduct.checkIfProductExist(id);
@@ -26,20 +27,19 @@ const checkIfProductIdExist = async function (id) {
   } catch (error) {
     return Boom.badRequest(error);
   }
-  }
+}
+
 const createPrice = async function (req, reply) {
-if(!mongoose.Types.ObjectId.isValid(req.payload.productId)) throw Boom.badRequest("invalid id format!");    
-const checkproId = await checkIfProductIdExist(req.payload.productId);
-if(empty(checkproId) )  throw Boom.badRequest("Product id doesn't exist");
-try {
-  const price = await model.createPrice(req.payload);
-  return price;
-} catch (error) {
-  return Boom.badRequest(error);
+  if(!mongoose.Types.ObjectId.isValid(req.payload.productId)) throw Boom.badRequest("invalid id format!");
+  const checkproId = await checkIfProductIdExist(req.payload.productId);
+  if(empty(checkproId) )  throw Boom.badRequest("Product id doesn't exist");
+  try {
+    const price = await model.createPrice(req.payload);
+    return price;
+  } catch (error) {
+    return Boom.badRequest(error);
+  }
 }
-
-}
-
 
 const updatePrice = async function (req, reply) {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) throw Boom.badRequest("invalid id format!");       
@@ -49,7 +49,6 @@ const updatePrice = async function (req, reply) {
   } catch (error) {
     return Boom.badRequest(error);
   }
-
 };
 
 const getPrice = async function (req, reply) {

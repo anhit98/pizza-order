@@ -1,17 +1,16 @@
 'use strict';
 const Joi = require('joi');
-const bcrypt = require('bcrypt');
 const Boom = require('boom');
 var model = require('../models/category.js');
 var mongoose = require('mongoose');
 const empty = require('is-empty');
 const validateCategory = {
   name: Joi.string().max(100).required(),
-  image: Joi.string().max(400).required()
+  image: Joi.string().required()
 }
  const validateUpdateCategory = {
   name: Joi.string().max(100).optional(),
-  image: Joi.string().max(400).optional()
+  image: Joi.string().optional()
  }
 
 const createCategory = async function (req, reply) {
@@ -31,16 +30,15 @@ const updateCategory = async function (req, reply) {
   } catch (error) {
     Boom.badRequest(error);
   }
-
 };
+
 const getAllCategories = async function (req, reply) {
   try {
     const categories = await model.getAllCategories();
     return {categories: categories};
   } catch (error) {
-    return Boom.badRequest(err);
+    return Boom.badRequest(error);
   }
-
 }
 
 const deleteCategory = async function (req, reply) {
@@ -58,10 +56,10 @@ const deleteCategory = async function (req, reply) {
     };
   }
   } catch (error) {
-    return Boom.badRequest(err);
+    return Boom.badRequest(error);
   }
-    
 };
+
 module.exports = {
   createCategory,
   validateCategory,
